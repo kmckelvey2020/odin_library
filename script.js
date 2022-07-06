@@ -18,11 +18,21 @@ function removeBoomFromLibrary() {
 
 // toggle read status from unread to read or vice versa
 function toggleReadStatus() {
-    
+
 }
 
 // loop through the array and display each book on the page
 function displayBooks() {
+
+}
+
+// import books in json format
+function importBooks() {
+
+}
+
+// export books in json format
+function exportBooks() {
 
 }
 
