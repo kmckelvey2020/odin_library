@@ -5,39 +5,158 @@
 }
 
 body, #root, p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    margin: 0rem auto;
+}
 
+.container {
+    border: 2px solid red;
+    margin: 0rem 5%;
+}
+
+h1, h2 {
+    font-family: 'Gentium Book Plus', serif;
+}
+
+h1 {
+    font-size: min(9vw, 3rem);
+}
+
+h2 {
+    font-size: min(6vw, 2.25rem);
 }
 
 header {
+    margin: 0rem auto;
+    min-height: min(10vh, 4rem);
+    padding: 0rem 0rem;
 
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    align-items:flex-end;
+    column-gap: 0.25rem;
 }
 
 .logo {
+    border: 2px solid purple;
+    grid-column: 1/2;
 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+}
+
+.logo img {
+    margin: 0rem auto;
+    padding: 0.25rem 1rem;
+}
+
+.logo h2 {
+    margin: 0rem auto;
+    padding: 0rem 1rem;}
+
+.library {
+    color: blue;
 }
 
 ul.nav_links {
+    border: 2px solid purple;
+    grid-column: 1/2;
     list-style: none;
+    padding: 0rem 0rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
+ul.nav_links li {
+    background-color: blue;
+    color: white;
+    font-size: min(5vw, 1rem);
+    margin: 0.1rem 0.1rem;
+    min-width: min(30vw, 7rem);
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+}
+
+ul.nav_links a {
+    color: white;
+    text-decoration: none;
 }
 
 main {
+    border: 2px solid red;
 
+    min-height: min(80vh, 50rem);
+    margin: 0rem auto;
 }
 
 .hero {
+    background-image: url(./public/pexels-juan-pablo-serrano-arenas-877971-library-3.PNG);
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0rem auto;
+    min-height: min(40vh, 30rem);
+    overflow: hidden;
 
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero_text {
+    border-radius: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    margin: 0rem auto;
+    padding: 2rem 1rem;
+    width: min(80%, 50rem);
 
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+    column-gap: 1rem;
+}
+
+.hero_text h1 {
+    grid-column: 1/2;
+    grid-row: 1/3;
+    text-align: center;
+}
+
+.hero_text p {
+    font-size: min(5vw, 1rem);
 }
 
 .form_container {
+    border: 2px solid blue;
 
+    margin: 0rem auto;
+    max-width: 80vw;
+    padding: 1rem 1rem;
+    
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn {
-
+    font-family: 'Roboto', sans-serif;
+    font-size: min(5vw, 1rem);
+    margin: 0 auto;
+    padding: 0.25rem 1rem;
+    text-align: center;
+    width: 7rem;
 }
 
 .add {
@@ -45,7 +164,10 @@ main {
 }
 
 .close_button {
-
+    float: right;
+    padding: 0rem 0.25rem;
+    margin: 0rem 0rem;
+    max-width: max-content;
 }
 
 .search_btn {
@@ -61,11 +183,20 @@ main {
 }
 
 .modal_header {
-
+    margin: 0 auto;
+    padding: 0.5rem 1rem;
 }
 
 form {
+    border:  2px solid red;
+    font-family: 'Roboto', sans-serif;
+    font-size: min(5vw, 1rem);
+}
 
+input {
+    font-family: 'Roboto', sans-serif;
+    font-size: min(5vw, 1rem);
+    width: min(70vw, 30rem);
 }
 
 .overlay {
@@ -73,7 +204,7 @@ form {
 }
 
 .carousel_container {
-
+    padding: 0.5rem 1rem;
 }
             
 .carousel {
@@ -81,6 +212,13 @@ form {
 }
                   
 footer {
+    min-height: min(10vh, 5rem);
+    text-align: center;
+    margin: 0rem auto;
+}
 
+footer p {
+    font-family: 'Roboto', sans-serif;
+    font-size: min(5vw, 0.75rem);
 }
        
