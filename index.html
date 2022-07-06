@@ -27,11 +27,11 @@
                 </div>
             </section>
             <section class="form_container">
-                <button type="button" id="add" name="add">Add New Book</button>
+                <button class="btn add" type="button" id="add" name="add">Add New Book</button>
                 <div class="modal" id="modal">
                     <div class="modal_header">
                         <h2>Add New Book</h2>
-                        <button class="btn close_button" type="button" id="close" name="close"><img src="" alt="" />X</button>
+                        <button class="btn close_button" type="button" id="close" name="close"><img src="" alt="" />&times;</button>
                     </div>
                     <form action="" method="post">
                         <input type="text" id="search_term" name="search_term" placeholder="Search for book title..." />
@@ -49,6 +49,7 @@
                         <button class="btn save_btn" type="submit" id="save_btn" name="save_btn">Save book</button>
                     </form>
                 </div>
+                <div class="overlay" id="overlay"></div>
             </section>
             <section class="carousel_container">
                 <div class="carousel"></div>
