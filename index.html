@@ -31,26 +31,33 @@
                     </div>
                 </section>
                 <section class="form_container">
-                    <button class="btn add" type="button" id="add" name="add">Add New Book</button>
+                    <button class="btn add_btn" type="button" id="add_btn" name="add_btn">Add New Book</button>
                     <div class="modal" id="modal">
                         <div class="modal_header">
-                            <button class="btn close_button" type="button" id="close" name="close"><img src="" alt="" />&times;</button>
-                            <h1>Add New Book</h1>
+                            <button class="close_button" type="button" id="close" name="close"><img src="" alt="" />&times;</button>
+                            <h2>Add New Book</h2>
                         </div>
-                        <form action="" method="post">
-                            <input type="text" id="search_term" name="search_term" placeholder="Search for book title..." /><br/>
-                            <button class="btn search_btn" type="submit" id="search_btn" name="search_btn">Search</button>
+                        <form class="form" action="" method="post" id="search_form">
+                            <fieldset class="field">
+                                <input type="text" id="search_term" name="search_term" placeholder="Search for book title..." /><br/>
+                                <button class="btn search_btn" type="submit" id="search_btn" name="search_btn">Search</button>
+                            </fieldset>
                         </form>
-                        <form action="" method="post">
-                            <label for="title">Book title:</label>
-                            <input type="text" id="title" name="title" placeholder="Enter title..." />
-                            <label for="author">Book author:</label>
-                            <input type="text" id="author" name="author" placeholder="Enter author..." />
-                            <label for="isbn">Book isbn:</label>
-                            <input type="text" id="isbn" name="isbn" placeholder="Enter isbn..." />
-                            <label for="pages">Book pages:</label>
-                            <input type="text" id="pages" name="pages" placeholder="Enter pages..." /><br/>
+                        <form class="form" action="" method="post" id="book_form">
+                            <fieldset class="field">
+                                <label for="title">Book title:</label><br/>
+                                <input type="text" id="title" name="title" placeholder="Enter title..." /><br/>
+                                <label for="author">Book author:</label><br/>
+                                <input type="text" id="author" name="author" placeholder="Enter author..." />
+                            </fieldset>
+                            <fieldset class="field">
+                                <label for="isbn">Book ISBN:</label><br/>
+                                <input type="text" id="isbn" name="isbn" placeholder="Enter isbn..." /><br/>
+                                <label for="pages">Book pages:</label><br/>
+                                <input type="text" id="pages" name="pages" placeholder="Enter pages..." />
+                            <br/>
                             <button class="btn save_btn" type="submit" id="save_btn" name="save_btn">Save book</button>
+                            </fieldset>
                         </form>
                     </div>
                     <div class="overlay" id="overlay"></div>

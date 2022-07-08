@@ -7,11 +7,16 @@
 body, #root, p {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    margin: 0rem auto;
 }
 
+body {
+    background-color: rgba(190, 145, 155, 0.5);
+}
 .container {
-    border: 2px solid red;
+    background-image: radial-gradient(circle at 100% 0%, rgb(240, 195, 205) 0%, rgb(55, 35, 35) 80%);
+    border: 1px solid rgb(55, 35, 35);
+    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35),
+        inset 0.1rem 0.1rem 0.1rem 0rem black;
     margin: 0rem 5%;
 }
 
@@ -28,71 +33,78 @@ h2 {
 }
 
 header {
+    background-color: rgba(55, 35, 35, 0.75rem);
     margin: 0rem auto;
     min-height: min(10vh, 4rem);
     padding: 0rem 0rem;
 
-    display: flex;
-    grid-template-columns: 1fr 1fr;
-    justify-content: space-between;
-    align-items:flex-end;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    justify-content:center;
+    align-items:center;
     column-gap: 0.25rem;
 }
 
 .logo {
-    border: 2px solid purple;
     grid-column: 1/2;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    align-items: center;
-}
-
-.logo img {
-    margin: 0rem auto;
-    padding: 0.25rem 1rem;
-}
-
-.logo h2 {
-    margin: 0rem auto;
-    padding: 0rem 1rem;}
-
-.library {
-    color: blue;
-}
-
-ul.nav_links {
-    border: 2px solid purple;
-    grid-column: 1/2;
-    list-style: none;
-    padding: 0rem 0rem;
 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+
+.logo img {
+    padding: 0.25rem 1rem;
+}
+
+.logo h2 {
+    color: white;
+    padding: 0rem 1rem;
+    text-shadow: 0.1rem 0.1rem 0rem black,
+        0.1rem 0.1rem 0.5rem black;
+}
+
+.library {
+    color: rgb(250, 205, 215);
+}
+
+ul.nav_links {
+    grid-column: 2/3;
+    list-style: none;
+    padding: 0rem 0rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:space-evenly;
+    align-items: center;
     column-gap: 0.5rem;
 }
 
 ul.nav_links li {
-    background-color: blue;
+    background-image: radial-gradient(circle at 100% 0%, rgb(190, 145, 155) 0%, rgb(160, 115, 125) 100%);
+    border: 1px solid rgb(55, 35, 35);
+    border-radius: 0.5rem;
+    box-shadow: 0.25rem 0.25rem 0.25rem 0rem rgb(55, 35, 35),
+        0.05rem 0.05rem 0rem 0.1rem rgb(55, 35, 35),
+        inset 0.1rem 0.1rem 0.1rem 0rem white;
     color: white;
     font-size: min(5vw, 1rem);
     margin: 0.1rem 0.1rem;
     min-width: min(30vw, 7rem);
     padding: 0.25rem 0.5rem;
     text-align: center;
+
 }
 
 ul.nav_links a {
     color: white;
     text-decoration: none;
+    text-shadow: 0.1rem 0.1rem 0rem black,
+        0.1rem 0.1rem 0.5rem black;
 }
 
 main {
-    border: 2px solid red;
-
     min-height: min(80vh, 50rem);
     margin: 0rem auto;
 }
@@ -101,6 +113,8 @@ main {
     background-image: url(./public/pexels-juan-pablo-serrano-arenas-877971-library-3.PNG);
     background-repeat: no-repeat;
     background-size: cover;
+    border: 1px solid rgb(55, 35, 35);
+    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     margin: 0rem auto;
     min-height: min(40vh, 30rem);
     overflow: hidden;
@@ -109,6 +123,7 @@ main {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 .hero_text {
@@ -117,7 +132,9 @@ main {
     color: white;
     margin: 0rem auto;
     padding: 2rem 1rem;
-    width: min(80%, 50rem);
+    text-shadow: 0.1rem 0.1rem 0rem black,
+    0.1rem 0.1rem 0.5rem black;
+    width: min(80%, 40rem);
 
     display: grid;
     grid-template-columns: 1fr;
@@ -131,6 +148,8 @@ main {
     grid-column: 1/2;
     grid-row: 1/3;
     text-align: center;
+    text-shadow: 0.1rem 0.1rem 0rem black,
+        0.1rem 0.1rem 0.5rem black;
 }
 
 .hero_text p {
@@ -138,8 +157,9 @@ main {
 }
 
 .form_container {
-    border: 2px solid blue;
-
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgb(55, 35, 35);
+    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     margin: 0rem auto;
     max-width: 80vw;
     padding: 1rem 1rem;
@@ -151,35 +171,51 @@ main {
 }
 
 .btn {
+    background-image: radial-gradient(circle at 100% 0%, rgb(190, 145, 155) 0%, rgb(160, 115, 125) 100%);
+    border: 1px solid rgb(55, 35, 35);
+    border-radius: 0.5rem;
+    box-shadow: 0.25rem 0.25rem 0.25rem 0rem rgb(55, 35, 35),
+        0.05rem 0.05rem 0rem 0.1rem rgb(55, 35, 35),
+        inset 0.1rem 0.1rem 0.1rem 0rem white;
+    color: white;
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);
-    margin: 0 auto;
+    margin: 0.1rem auto;
+    min-width: min(30vw, 7rem);
     padding: 0.25rem 1rem;
     text-align: center;
+    text-shadow: 0.1rem 0.1rem 0rem black,
+        0.1rem 0.1rem 0.5rem black;
     width: 7rem;
 }
 
-.add {
-
+.add_btn {
+    margin: 0 auto;
 }
 
 .close_button {
+    box-shadow: 0.1rem 0.1rem 0.25rem 0rem rgb(55, 35, 35),
+        0.05rem 0.05rem 0rem 0.05rem rgb(55, 35, 35),
+        inset 0.1rem 0.1rem 0.1rem 0rem white;
     float: right;
     padding: 0rem 0.25rem;
-    margin: 0rem 0rem;
-    max-width: max-content;
+    margin: 0 auto;
+    width: max-content;
 }
 
 .search_btn {
-
+    margin: 0 auto;
 }
 
 .save_btn {
-
+    margin: 0 auto;
 }
        
 .modal {
-
+    border: 1px solid rgb(55, 35, 35);
+    border-radius: 0.5rem;
+    margin: 1rem auto;
+    padding: 1rem 1rem;
 }
 
 .modal_header {
@@ -187,15 +223,35 @@ main {
     padding: 0.5rem 1rem;
 }
 
-form {
-    border:  2px solid red;
+.form {
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);
+    margin: 1rem auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items:flex-start;
+    column-gap: 0.5rem;
+}
+
+fieldset {
+    border: 0;
+    margin: 0 auto;
+}
+
+label {
+    font-family: 'Roboto', sans-serif;
+    font-size: min(5vw, 1rem);
+    margin: 0.1rem auto;
+    padding: 0.25rem 1rem;
 }
 
 input {
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);
+    margin: 0.1rem auto;
+    padding: 0.25rem 1rem;
     width: min(70vw, 30rem);
 }
 
@@ -205,20 +261,24 @@ input {
 
 .carousel_container {
     padding: 0.5rem 1rem;
+    margin: 0 auto;
 }
             
 .carousel {
-
+    margin: 0 auto;
 }
                   
 footer {
     min-height: min(10vh, 5rem);
     text-align: center;
     margin: 0rem auto;
+    padding: 1rem 1rem;
 }
 
 footer p {
+    color: white;
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 0.75rem);
-}
+    text-shadow: 0.1rem 0.1rem 0rem black,
+    0.1rem 0.1rem 0.5rem black;}
        
