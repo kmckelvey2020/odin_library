@@ -1,4 +1,4 @@
-* {
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0rem 0rem;
     padding: 0rem 0rem;
@@ -12,6 +12,7 @@ body, #root, p {
 body {
     background-color: rgba(190, 145, 155, 0.5);
 }
+
 .container {
     background-image: radial-gradient(circle at 100% 0%, rgb(240, 195, 205) 0%, rgb(55, 35, 35) 80%);
     border: 1px solid rgb(55, 35, 35);
@@ -244,16 +245,73 @@ label {
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);
     margin: 0.1rem auto;
-    padding: 0.25rem 1rem;
+    margin-top: 0.75rem;
+    padding: 0.25rem 1rem 0.25rem 0rem;
 }
 
 input {
+    border: 1px solid rgb(55, 35, 35);
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);
     margin: 0.1rem auto;
+    margin-bottom: 0.75rem;
     padding: 0.25rem 1rem;
     width: min(70vw, 30rem);
 }
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 3.5rem;
+    height: 1.5rem;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    border: 1px solid rgb(55, 35, 35);
+    border-radius: 2rem;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    border-radius: 50%;
+    content: "";
+    height: 1rem;
+    width: 1rem;
+    left: 0.2rem;
+    bottom: 0.2rem;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: rgb(190, 145, 155);
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px rgb(160, 115, 125);
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(2rem);
+    -ms-transform: translateX(2rem);
+    transform: translateX(2rem);
+  }
 
 .overlay {
 
@@ -266,8 +324,66 @@ input {
             
 .carousel {
     margin: 0 auto;
+    width: 80vw;
+    height: 60vh;
+    position: relative;
+    list-style: none;
 }
-                  
+
+.carousel > ul {
+    margin: 0;
+    padding: 0;
+}
+
+.slide {
+    border: 2px solid red;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.slide > .card {
+    border: 2px solid blue;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit:contain;
+    object-position: center;
+}
+
+.slide[data-active] {
+    opacity: 1;
+}
+
+.carousel_button {
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: 4rem;
+    top: 50%;
+    z-index: 10;
+    transform: translateY(-50%);
+    color: rgba(0, 0, 0, .5);
+    cursor: pointer;
+    border-radius: 0.25rem;
+    padding: 0rem 0.5rem;
+    background-color: rgba(150, 150, 105, .5);
+}
+         
+.carousel_button:hover,
+.carousel_button:focus {
+    color: white;
+    background-color: rgba(150, 150, 105, .75);
+}
+
+.carousel_button.prev {
+    left: 1rem;
+}
+
+.carousel_button.next {
+    right: 1rem;
+}
+
 footer {
     min-height: min(10vh, 5rem);
     text-align: center;

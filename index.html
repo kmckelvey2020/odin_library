@@ -48,13 +48,19 @@
                                 <label for="title">Book title:</label><br/>
                                 <input type="text" id="title" name="title" placeholder="Enter title..." /><br/>
                                 <label for="author">Book author:</label><br/>
-                                <input type="text" id="author" name="author" placeholder="Enter author..." />
+                                <input type="text" id="author" name="author" placeholder="Enter author..." /><br/>
+                                <label for="isbn">Book ISBN:</label><br/>
+                                <input type="text" id="isbn" name="isbn" placeholder="Enter isbn..." />
                             </fieldset>
                             <fieldset class="field">
-                                <label for="isbn">Book ISBN:</label><br/>
-                                <input type="text" id="isbn" name="isbn" placeholder="Enter isbn..." /><br/>
                                 <label for="pages">Book pages:</label><br/>
-                                <input type="text" id="pages" name="pages" placeholder="Enter pages..." />
+                                <input type="text" id="pages" name="pages" placeholder="Enter pages..." /><br/>
+                                <label for="read">Have you read this book?
+                                <div class="switch">
+                                    <input type="checkbox" id="read" name="read" />
+                                    <span class="slider"></span>
+                                </div>
+                                </label>
                             <br/>
                             <button class="btn save_btn" type="submit" id="save_btn" name="save_btn">Save book</button>
                             </fieldset>
@@ -62,8 +68,31 @@
                     </div>
                     <div class="overlay" id="overlay"></div>
                 </section>
-                <section class="carousel_container">
-                    <div class="carousel"></div>
+                <section class="carousel_container" aria-label="Book List">
+                    <div class="carousel" data-carousel>
+                        <button class="carousel_button prev" data-carousel-button="prev">&#8656;</button>
+                        <button class="carousel_button next" data-carousel-button="next">&#8658;</button>
+                        <ul id="book_slides" data-slides>
+                            <li class="slide" data-active>
+                                <div class="card">
+                                    <h1>Book 1</h1>
+                                    <p></p>
+                                </div>
+                            </li>
+                            <li class="slide">
+                                <div class="card">
+                                    <h1>Book 2</h1>
+                                    <p></p>
+                                </div>                            
+                            </li>
+                            <li class="slide">
+                                <div class="card">
+                                    <h1>Book 3</h1>
+                                    <p></p>
+                                </div>                            
+                            </li>
+                        </ul>
+                    </div>
                 </section>
             </main>
             <footer>
