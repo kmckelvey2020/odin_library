@@ -41,9 +41,13 @@ function displayBook(book) {
     const listItem = document.createElement('li');
     listItem.id = "slide";
     listItem.className = "slide";
-    const bookDiv = document.createElement('div');
-    bookDiv.className = "card";
-    const title = document.createElement('h1');
+
+    const page5 = document.createElement('div');
+    page5.className = "page5";
+    const page6 = document.createElement('div');
+    page6.className = "page6";
+
+    const title = document.createElement('h2');
     title.innerHTML = `${book.title}`;
     const author = document.createElement('p');
     author.innerHTML = `Author: ${book.author}`;
@@ -53,16 +57,23 @@ function displayBook(book) {
     pages.innerHTML = `Pages: ${book.pages}`;
     const read = document.createElement('p');
     read.innerHTML = `Read: ${book.read}`;
+    const del = document.createElement('button');
+    del.innerHTML = `Delete Book`;
+    del.id = "del_btn";
+    del.className = "btn del_btn";
 
-    bookDiv.appendChild(title);
-    bookDiv.appendChild(author);
-    bookDiv.appendChild(isbn);
-    bookDiv.appendChild(pages);
-    bookDiv.appendChild(read);
+    page6.appendChild(title);
+    page5.appendChild(author);
+    page5.appendChild(isbn);
+    page5.appendChild(pages);
+    page5.appendChild(read);
+    page5.appendChild(del);
+
+    listItem.appendChild(page6);
+    listItem.appendChild(page5);
 
     const activeSlide = unorderedList.querySelector("[data-active]");
 
-    listItem.appendChild(bookDiv);
     listItem.dataset.active = true;
     unorderedList.appendChild(listItem);
 

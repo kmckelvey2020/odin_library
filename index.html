@@ -68,30 +68,43 @@
                     </div>
                     <div class="overlay" id="overlay"></div>
                 </section>
-                <section class="carousel_container" aria-label="Book List">
+                <section class="carousel_container" aria-label="Book List Container">
                     <div class="carousel" data-carousel>
                         <button class="carousel_button prev" data-carousel-button="prev">&#8656;</button>
                         <button class="carousel_button next" data-carousel-button="next">&#8658;</button>
-                        <ul id="book_slides" data-slides>
-                            <li class="slide" data-active>
-                                <div class="card">
-                                    <h1>Book 1</h1>
-                                    <p></p>
+                        <div class="card">
+                            <div class="book">
+                                <div class="pages">
+                                    <div class="back"></div>
+                                    <ul id="book_slides" data-slides  aria-label="Book List">
+                                        <li class="slide" data-active>
+                                            <div class="page6"><h2>The Title of This Really Awesome Book</h2></div>
+                                            <div class="page5">
+                                                <p>Author: Somebody Blahblah</p>
+                                                <p>ISBN: 6465684654546464</p>
+                                                <p>Pages: 785</p>
+                                                <p>Read: yes</p>
+                                            </div> 
+                                        </li>
+                                        <li class="slide">
+                                            <div class="page6"><h2>Some other title</h2></div>
+                                            <div class="page5">
+                                                <p>Author: Thati Usedtoknow</p>
+                                                <p>ISBN: 64656842346464</p>
+                                                <p>Pages: 244</p>
+                                                <p>Read: no</p>
+                                            </div> 
+                                        </li>
+                                    </ul>
+                                    <div class="pageT"></div>
+                                    <div class="page4"></div>
+                                    <div class="page3"></div>
+                                    <div class="page2"></div>
+                                    <div class="page1"></div>
+                                    <div class="front"></div>
                                 </div>
-                            </li>
-                            <li class="slide">
-                                <div class="card">
-                                    <h1>Book 2</h1>
-                                    <p></p>
-                                </div>                            
-                            </li>
-                            <li class="slide">
-                                <div class="card">
-                                    <h1>Book 3</h1>
-                                    <p></p>
-                                </div>                            
-                            </li>
-                        </ul>
+                            </div>
+                        </div>    
                     </div>
                 </section>
             </main>
