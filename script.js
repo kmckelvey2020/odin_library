@@ -102,31 +102,48 @@ function searchForBook(event) {
 
 function handleCarouselClick(event) {
     const button = event.target;
-    console.log(button.dataset);
     const offset = button.dataset.carouselButton === "next" ? 1 : -1;
     const slides = button
         .closest("[data-carousel]")
         .querySelector("[data-slides]");
 
-        const activeSlide = slides.querySelector("[data-active]");
-   
-        let newIndex = [...slides.children].indexOf(activeSlide) + offset;
-        if (newIndex < 0) newIndex = slides.children.length - 1;
-        if(newIndex >= slides.children.length) newIndex = 0;
+    const activeSlide = slides.querySelector("[data-active]");
+    delete activeSlide.dataset.active;
 
+    const animatedSlide = offset === 1 ? document.getElementById("pageR") : document.getElementById("pageL");
+    const animation = offset === 1 ? "animate" : "rev_animate";
+    animatedSlide.classList.add(`${animation}`);
+
+    let newIndex = [...slides.children].indexOf(activeSlide) + offset;
+    if (newIndex < 0) newIndex = slides.children.length - 1;
+    if(newIndex >= slides.children.length) newIndex = 0;
+
+    setTimeout(() => {
         slides.children[newIndex].dataset.active = true;
-        delete activeSlide.dataset.active;
+    }, 550);
+}
+
+function removeAnimation(event) {
+    console.log("removeAnimation called");
+    const target = event.target;
+    const animation = target.classList.contains("animate") ? "animate" : "rev_animate";
+    const animatedSlide = animation === "animate" ? document.getElementById("pageR") : document.getElementById("pageL");
+    animatedSlide.classList.remove(`${animation}`);
 }
 
 function addListeners() {
     const searchForm = document.getElementById("search_form");
     const bookForm = document.getElementById("book_form");
     const carousel_buttons = document.querySelectorAll(".carousel_button");
+    const pages_to_turn = document.querySelectorAll(".turn");
 
     searchForm.addEventListener("submit", searchForBook);
     bookForm.addEventListener("submit", addBookToLibrary);
     carousel_buttons.forEach(button => {
         button.addEventListener("click", handleCarouselClick);
+    })
+    pages_to_turn.forEach(page => {
+        page.addEventListener("transitionend", removeAnimation);
     })
 }
 
