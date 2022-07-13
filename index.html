@@ -17,7 +17,7 @@
                 <nav>
                     <ul class="nav_links">
                         <li><a href="./index.html">Home</a></li>
-                        <li><a href="./book_form.html">Add Books</a></li>
+                        <li><a href="#form_container">Add Book</a></li>
                         <li><a href="./about.html">About</a></li>
                     </ul>
                 </nav>
@@ -30,44 +30,6 @@
                         <p>At MyLibraryTracker, we just help you keep track of your travels.</p>
                     </div>
                 </section>
-                <section class="form_container">
-                    <button class="btn add_btn" type="button" id="add_btn" name="add_btn">Add New Book</button>
-                    <div class="modal" id="modal">
-                        <div class="modal_header">
-                            <button class="close_button" type="button" id="close" name="close"><img src="" alt="" />&times;</button>
-                            <h2>Add New Book</h2>
-                        </div>
-                        <form class="form" action="" method="post" id="search_form">
-                            <fieldset class="field">
-                                <input type="text" id="search_term" name="search_term" placeholder="Search for book title..." /><br/>
-                                <button class="btn search_btn" type="submit" id="search_btn" name="search_btn">Search</button>
-                            </fieldset>
-                        </form>
-                        <form class="form" action="" method="post" id="book_form">
-                            <fieldset class="field">
-                                <label for="title">Book title:</label><br/>
-                                <input type="text" id="title" name="title" placeholder="Enter title..." /><br/>
-                                <label for="author">Book author:</label><br/>
-                                <input type="text" id="author" name="author" placeholder="Enter author..." /><br/>
-                                <label for="isbn">Book ISBN:</label><br/>
-                                <input type="text" id="isbn" name="isbn" placeholder="Enter isbn..." />
-                            </fieldset>
-                            <fieldset class="field">
-                                <label for="pages">Book pages:</label><br/>
-                                <input type="text" id="pages" name="pages" placeholder="Enter pages..." /><br/>
-                                <label for="read">Have you read this book?
-                                <div class="switch">
-                                    <input type="checkbox" id="read" name="read" />
-                                    <span class="slider"></span>
-                                </div>
-                                </label>
-                            <br/>
-                            <button class="btn save_btn" type="submit" id="save_btn" name="save_btn">Save book</button>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <div class="overlay" id="overlay"></div>
-                </section>
                 <section class="carousel_container" aria-label="Book List Container">
                     <div class="carousel" data-carousel>
                         <button class="carousel_button prev" data-carousel-button="prev" id="prev">&#8656;</button>
@@ -77,22 +39,12 @@
                                 <div class="pages">
                                     <div class="back"></div>
                                     <ul id="book_slides" data-slides  aria-label="Book List">
-                                        <li class="slide" data-active>
-                                            <div class="page6"><h2>The Title of This Really Awesome Book</h2></div>
+                                        <li class="default slide" data-active>
+                                            <div class="page6"><h2>Click "Add Book" to add to your library</h2></div>
                                             <div class="page5">
-                                                <p>Author: Somebody Blahblah</p>
-                                                <p>ISBN: 6465684654546464</p>
-                                                <p>Pages: 785</p>
-                                                <p>Read: yes</p>
-                                            </div> 
-                                        </li>
-                                        <li class="slide">
-                                            <div class="page6"><h2>Some other title</h2></div>
-                                            <div class="page5">
-                                                <p>Author: Thati Usedtoknow</p>
-                                                <p>ISBN: 64656842346464</p>
-                                                <p>Pages: 244</p>
-                                                <p>Read: no</p>
+                                                <p>Add books to get started</p>
+                                                <p>You can save your list!</p>
+                                                <p>Try uploading an existing list!</p>
                                             </div> 
                                         </li>
                                     </ul>
@@ -107,6 +59,57 @@
                             </div>
                         </div>    
                     </div>
+                </section>
+                <section id="form_container" class="form_container">
+                    <div class="modal" id="modal">
+                        <div class="modal_header">
+                            <button class="close_button" type="button" id="close" name="close"><img src="" alt="" />&times;</button>
+                            <h2>Add New Book</h2>
+                        </div>
+                        <form class="form" action="" method="post" id="search_form">
+                            <fieldset class="field">
+                                <input type="text" id="search_term" name="search_term" placeholder="Search for book title..." /><br/>
+                                <button class="btn search_btn" type="submit" id="search_btn" name="search_btn">Search</button>
+                            </fieldset>
+                        </form>
+                        <form class="form" action="" method="post" id="book_form">
+                            <fieldset class="field">
+                                <label for="title">Book title:</label><br/>
+                                <input type="text" id="title" name="title" placeholder="Enter title..." required /><br/>
+                                <label for="author">Book author:</label><br/>
+                                <input type="text" id="author" name="author" placeholder="Enter author..." required /><br/>
+                                <label for="isbn">Book ISBN:</label><br/>
+                                <input type="text" id="isbn" name="isbn" placeholder="Enter isbn..." required />
+                            </fieldset>
+                            <fieldset class="field">
+                                <label for="pages">Book pages:</label><br/>
+                                <input type="text" id="pages" name="pages" placeholder="Enter pages..." required /><br/>
+                                <label for="read">Have you read this book?
+                                <div class="switch">
+                                    <input type="checkbox" id="read" name="read" />
+                                    <span class="slider"></span>
+                                </div>
+                                </label>
+                            <br/>
+                            <button class="btn save_btn" type="submit" id="save_btn" name="save_btn">Save book</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="overlay" id="overlay"></div>
+                </section>
+                <section class="table_container">
+                    <table id="book_table" class="book_table">
+                        <tr>
+                            <th>Title:</th>
+                            <th>Author:</th>
+                            <th>ISBN:</th>
+                            <th>Pages:</th>
+                            <th>Read:</th>
+                        </tr>
+                        <tbody id="book_tbody" class="book_tbody">
+
+                        </tbody>
+                    </table>
                 </section>
             </main>
             <footer>

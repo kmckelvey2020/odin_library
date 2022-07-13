@@ -112,6 +112,7 @@ ul.nav_links li {
 
 ul.nav_links a {
     color: white;
+    cursor: pointer;
     text-decoration: none;
     text-shadow: 0.1rem 0.1rem 0rem black,
         0.1rem 0.1rem 0.5rem black;
@@ -195,12 +196,6 @@ ul.nav_links a {
     width: 7rem;
 }
 
-.add_btn {
-    grid-column: 1/2;
-    margin: 0rem auto;
-    margin-bottom: 1rem;
-}
-
 .close_button {
     box-shadow: 0.1rem 0.1rem 0.25rem 0rem rgb(55, 35, 35),
         0.05rem 0.05rem 0rem 0.05rem rgb(55, 35, 35),
@@ -216,7 +211,7 @@ ul.nav_links a {
     margin: 0 auto;
 }
 
-.del_btn {
+.del_btn, .add_btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -246,11 +241,11 @@ ul.nav_links a {
 //                FORM                 //
 // *********************************** */
 
-.form_container {
+.form_container, .table_container {
     background-color: rgba(255, 255, 255, 0.95);
     border: 2px solid rgb(55, 35, 35);
     box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
-    margin: 0rem auto;
+    margin: 1rem auto;
     padding: 1rem 1rem;
     width: min(85vw, 75rem);
 
@@ -362,49 +357,30 @@ input {
 // *********************************** */
 
 .carousel_container {
-    border: 2px solid blue;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
+    border: 1px solid rgb(55, 35, 35);
     height: 60vh;
-    padding: 0rem 0rem;
-    margin: 0.5rem auto;
+    padding: 1rem 0rem;
+    margin: 0rem auto;
     position: relative;
+    text-align: center;
     width: min(85vw, 75rem);
 }
             
 .carousel {
-    background-color: rgba(255, 255, 255, 0.95);
-    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
-    border: 1px solid rgb(55, 35, 35);
     height: 100%;
     list-style: none;
     margin: 0rem auto;
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0);
-    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     height: 100%;
     margin: 0rem auto;
     
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.card > .book {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
-    perspective: 1500px;
-}
-
-.pages > ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    transform-style: preserve-3d;
 }
 
 .slide {
@@ -422,6 +398,7 @@ li.slide > div {
 }
 
 li.slide[data-active] {
+    transition: opacity 0.25s ease-in-out;
     opacity: 1;
 }
 
@@ -458,11 +435,28 @@ li.slide[data-active] {
 //                BOOK                 //
 // *********************************** */
 
+.card > .book {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    perspective: 1500px;
+}
+
 .pages {
     backface-visibility: visible;
     cursor: pointer;
     height: min(40vh, 25rem);
     position: relative;
+    transform-style: preserve-3d;
+}
+
+.pages > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     transform-style: preserve-3d;
 }
 
@@ -541,7 +535,7 @@ li.slide[data-active] {
     padding: 0.25rem 0.25rem;
 }
 
-.page5 h2, .page5 p, .del_btn {
+.page5 h2, .page5 p {
     transform: rotateY(-180deg);
 }
 
@@ -565,6 +559,15 @@ li.slide[data-active] {
     background-color: rgb(240, 240, 240);
     transform: rotateY(-30deg) scale(1.1);
     transition: transform 1s ease-in-out;
+}
+
+/* *********************************** //
+//               TABLE                //
+// *********************************** */
+
+table {
+    overflow: scroll;
+    text-align: center;
 }
 
 /* *********************************** //
