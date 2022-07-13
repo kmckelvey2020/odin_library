@@ -9,20 +9,15 @@ function Book(title, author, isbn, pages, read) {
     this.read = read;
 }
 
-// take user input and store the new book objects into an array
+// Store user input as a new book object into myLibrary array and call displayBook to add to DOM
 function addBookToLibrary(event) {
     event.preventDefault();
 
     const formData = new FormData(this);
+    const book = new Book(formData.get("title"), formData.get("author"), formData.get("isbn"), formData.get("pages"), formData.get("read")==="on" ? "yes" : "no");
     
-    for(const [key, value] of formData) {
-        console.log(`${key}: ${value}`);
-    };
-
-    const book = new Book(formData.get("title"), formData.get("author"), formData.get("isbn"), formData.get("pages"), formData.get("read"));
     myLibrary.push(book);
     displayBook(book);
-    console.log(myLibrary);
 }
 
 // remove book from array
@@ -61,6 +56,7 @@ function displayBook(book) {
     del.innerHTML = `Delete Book`;
     del.id = "del_btn";
     del.className = "btn del_btn";
+    del.addEventListener("click", removeBookFromLibrary);
 
     page6.appendChild(title);
     page5.appendChild(author);
@@ -88,6 +84,65 @@ function importBooks() {
 // export books in json format
 function exportBooks() {
 
+}
+
+//var obj = {a: "Hello", b: "World"};
+//saveText( JSON.stringify(obj), "filename.json" );
+function exportToJsonFile(jsonData) {
+    let dataStr = JSON.stringify(jsonData);
+    let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+
+    let exportFileDefaultName = 'data.json';
+
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+}
+
+function parseJSONToCSVStr(jsonData) {
+    if(jsonData.length == 0) {
+        return '';
+    }
+
+    let keys = Object.keys(jsonData[0]);
+
+    let columnDelimiter = ',';
+    let lineDelimiter = '\n';
+
+    let csvColumnHeader = keys.join(columnDelimiter);
+    let csvStr = csvColumnHeader + lineDelimiter;
+
+    jsonData.forEach(item => {
+        keys.forEach((key, index) => {
+            csvStr += item[key];
+            if( index < keys.length-1 ) {
+            csvStr += columnDelimiter;
+            }
+        });
+
+        //keys.forEach((key, index) => {
+        //    if( (index > 0) && (index < keys.length-1) ) {
+        //        csvStr += columnDelimiter;
+        //    }
+        //    csvStr += item[key];
+        //});
+        csvStr += lineDelimiter;
+    });
+
+    return encodeURIComponent(csvStr);;
+}
+
+function exportToCsvFile(jsonData) {
+    let csvStr = parseJSONToCSVStr(jsonData);
+    let dataUri = 'data:text/csv;charset=utf-8,'+ csvStr;
+
+    let exportFileDefaultName = 'data.csv';
+
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
 }
 
 function searchForBook(event) {
@@ -124,7 +179,6 @@ function handleCarouselClick(event) {
 }
 
 function removeAnimation(event) {
-    console.log("removeAnimation called");
     const target = event.target;
     const animation = target.classList.contains("animate") ? "animate" : "rev_animate";
     const animatedSlide = animation === "animate" ? document.getElementById("pageR") : document.getElementById("pageL");
