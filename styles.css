@@ -187,13 +187,12 @@ ul.nav_links a {
     color: white;
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);
-    margin: 0rem auto;
+    margin: 0.5rem auto;
     min-width: min(30vw, 7rem);
     padding: 0.25rem 1rem;
     text-align: center;
     text-shadow: 0.1rem 0.1rem 0rem black,
         0.1rem 0.1rem 0.5rem black;
-    width: 7rem;
 }
 
 .close_button {
@@ -207,14 +206,19 @@ ul.nav_links a {
     width: max-content;
 }
 
-.search_btn, .save_btn, .del_btn {
+.search_btn {
     margin: 0 auto;
 }
 
-.del_btn, .add_btn {
+.del_btn, .add_btn, .display_lib_btn, .export_libJSON_btn, .export_libCSV_btn, .save_btn {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.form_buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
     
 /* *********************************** //

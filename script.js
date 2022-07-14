@@ -1,4 +1,40 @@
-let myLibrary = [];
+let myLibrary = [
+    {
+        title: "The Hunchback of Notredame", 
+        author: "Monte Cristo", 
+        isbn: "789456123354", 
+        pages: 562, 
+        read: "yes"
+    },
+    {
+        title: "Dog Breeds of the World", 
+        author: "Doggino Puppicino", 
+        isbn: "456353457643", 
+        pages: 342, 
+        read: "no"
+    },
+    {
+        title: "The Duch Went Quack", 
+        author: "Little Bo Peep", 
+        isbn: "8970695457445", 
+        pages: 768, 
+        read: "yes"
+    },
+    {
+        title: "Exploration of Mars", 
+        author: "Charlotte Authorson", 
+        isbn: "8567856123354", 
+        pages: 58, 
+        read: "yes"
+    },
+    {
+        title: "Goldilocks and the Three Bears", 
+        author: "Mother Goose", 
+        isbn: "1234523354", 
+        pages: 142, 
+        read: "no"
+    }
+];
 
 function Book(title, author, isbn, pages, read) {
     // Book constructor
@@ -44,8 +80,25 @@ function removeBookFromLibrary(event) {
 }
 
 // toggle read status from unread to read or vice versa
-function toggleReadStatus() {
+function toggleReadStatus(book) {
 
+}
+
+function displayLibrary() {
+    displayLibraryCarousel();
+    displayLibraryTable(false); // search = false
+}
+
+function displayLibraryCarousel() {
+    myLibrary.forEach((book) => {
+        displayBookCarousel(book)
+    });
+}
+
+function displayLibraryTable(search) {
+    myLibrary.forEach((book) => {
+        displayBookTable(book, search)
+    });
 }
 
 // display Book in DOM Carousel
@@ -81,7 +134,7 @@ function displayBookCarousel(book) {
 }
 
 // display Book in DOM Table
-function displayBookTable(book, search=false) {
+function displayBookTable(book, search) {
     const tbody = document.getElementById("book_tbody");
     const row = document.createElement('tr');
     row.id = `row${book.isbn}`;
@@ -95,13 +148,14 @@ function displayBookTable(book, search=false) {
 
     const cell = document.createElement('td');
     const button = document.createElement('button');
-    if(search===false){
+    console.log(search);
+    if(!search){
         button.innerHTML = `DEL`;
         button.id = "del_btn";
         button.className = "btn del_btn";
         button.value = `${book.isbn}`;
         button.addEventListener("click", removeBookFromLibrary);
-    } else {
+    } else { //search === true (user searched for possible books to add to list using library api)
         button.innerHTML = `ADD`;
         button.id = "add_btn";
         button.className = "btn add_btn";
@@ -124,7 +178,8 @@ function importBooks() {
 
 //var obj = {a: "Hello", b: "World"};
 //exportToJsonFile( JSON.stringify(obj) );
-function exportToJsonFile(jsonData) {
+function exportToJsonFile() {
+    const jsonData = { library: myLibrary };
     let dataStr = JSON.stringify(jsonData);
     let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
@@ -137,6 +192,7 @@ function exportToJsonFile(jsonData) {
 }
 
 function parseJSONToCSVStr(jsonData) {
+
     if(jsonData.length == 0) {
         return '';
     }
@@ -169,7 +225,9 @@ function parseJSONToCSVStr(jsonData) {
     return encodeURIComponent(csvStr);;
 }
 
-function exportToCsvFile(jsonData) {
+function exportToCsvFile() {
+    const jsonData = { library: myLibrary };
+
     let csvStr = parseJSONToCSVStr(jsonData);
     let dataUri = 'data:text/csv;charset=utf-8,'+ csvStr;
 
@@ -225,6 +283,9 @@ function addListeners() {
     const book_form = document.getElementById("book_form");
     const carousel_buttons = document.querySelectorAll(".carousel_button");
     const pages_to_turn = document.querySelectorAll(".turn");
+    const display_lib_btn = document.getElementById("display_lib_btn");
+    const export_libJSON_btn = document.getElementById("export_libJSON_btn");
+    const export_libCSV_btn = document.getElementById("export_libCSV_btn");
 
     search_form.addEventListener("submit", searchForBook);
     book_form.addEventListener("submit", addBookToLibrary);
@@ -234,6 +295,10 @@ function addListeners() {
     pages_to_turn.forEach(page => {
         page.addEventListener("transitionend", removeAnimation);
     })
+    display_lib_btn.addEventListener("click", displayLibraryTable);
+    export_libJSON_btn.addEventListener("click", exportToJsonFile);
+    export_libCSV_btn.addEventListener("click", exportToCsvFile);
 }
 
 addListeners();
+displayLibrary();
