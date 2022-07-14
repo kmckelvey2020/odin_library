@@ -76,7 +76,9 @@ function removeBookFromLibrary(event) {
     }) 
     myLibrary.pop();
 
-    slides.querySelector(".slide").dataset.active = true;
+    if(!slides.querySelector("[data-active]")) {
+        slides.lastElementChild.dataset.active = true;
+    }
 }
 
 // toggle read status from unread to read or vice versa
@@ -86,7 +88,7 @@ function toggleReadStatus(book) {
 
 function displayLibrary() {
     displayLibraryCarousel();
-    displayLibraryTable(false); // search = false
+    displayLibraryTable(false); // isSearch = false
 }
 
 function displayLibraryCarousel() {
@@ -95,9 +97,11 @@ function displayLibraryCarousel() {
     });
 }
 
-function displayLibraryTable(search) {
+function displayLibraryTable(isSearch) {
+    const tbody = document.getElementById("book_tbody");
+    tbody.innerHTML = "";
     myLibrary.forEach((book) => {
-        displayBookTable(book, search)
+        displayBookTable(book, isSearch)
     });
 }
 
@@ -134,7 +138,7 @@ function displayBookCarousel(book) {
 }
 
 // display Book in DOM Table
-function displayBookTable(book, search) {
+function displayBookTable(book, isSearch) {
     const tbody = document.getElementById("book_tbody");
     const row = document.createElement('tr');
     row.id = `row${book.isbn}`;
@@ -148,14 +152,13 @@ function displayBookTable(book, search) {
 
     const cell = document.createElement('td');
     const button = document.createElement('button');
-    console.log(search);
-    if(!search){
+    if(!isSearch){
         button.innerHTML = `DEL`;
         button.id = "del_btn";
         button.className = "btn del_btn";
         button.value = `${book.isbn}`;
         button.addEventListener("click", removeBookFromLibrary);
-    } else { //search === true (user searched for possible books to add to list using library api)
+    } else { //isSearch === true (user searched for possible books to add to list using library api)
         button.innerHTML = `ADD`;
         button.id = "add_btn";
         button.className = "btn add_btn";
@@ -295,7 +298,9 @@ function addListeners() {
     pages_to_turn.forEach(page => {
         page.addEventListener("transitionend", removeAnimation);
     })
-    display_lib_btn.addEventListener("click", displayLibraryTable);
+    display_lib_btn.addEventListener("click", () => {
+            displayLibraryTable(false);
+    });
     export_libJSON_btn.addEventListener("click", exportToJsonFile);
     export_libCSV_btn.addEventListener("click", exportToCsvFile);
 }
