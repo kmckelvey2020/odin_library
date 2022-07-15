@@ -45,7 +45,7 @@ function Book(title, author, isbn, pages, read) {
     this.read = read;
 }
 
-// Store user input as a new book object into myLibrary array and call displayBook to add to DOM
+// Store user input as a new book object into myLibrary array and call displayBook functions to add to DOM
 function addBookToLibrary(event) {
     event.preventDefault();
 
@@ -57,7 +57,7 @@ function addBookToLibrary(event) {
     displayBookTable(book); // add to DOM Table
 }
 
-// remove book from myLibrary array and from DOM
+// Remove book from myLibrary array and from DOM
 function removeBookFromLibrary(event) {
     const isbn = event.target.value;
     const book_list_item = document.getElementById(`${isbn}`);
@@ -81,22 +81,25 @@ function removeBookFromLibrary(event) {
     }
 }
 
-// toggle read status from unread to read or vice versa
+// Toggle read status from unread to read or vice versa
 function toggleReadStatus(book) {
 
 }
 
+// Display myLibrary elements in carousel and table in DOM
 function displayLibrary() {
     displayLibraryCarousel();
     displayLibraryTable(false); // isSearch = false
 }
 
+// Display myLibrary elements in book carousel
 function displayLibraryCarousel() {
     myLibrary.forEach((book) => {
         displayBookCarousel(book)
     });
 }
 
+// Reset tbody and display myLibrary elements in tbody in DOM
 function displayLibraryTable(isSearch) {
     const tbody = document.getElementById("book_tbody");
     tbody.innerHTML = "";
@@ -105,7 +108,7 @@ function displayLibraryTable(isSearch) {
     });
 }
 
-// display Book in DOM Carousel
+// Display Book in DOM Carousel
 function displayBookCarousel(book) {
     const unorderedList = document.getElementById("book_slides");
     const bookListItem = document.createElement('li');
@@ -137,7 +140,7 @@ function displayBookCarousel(book) {
     if(activeSlide) delete activeSlide.dataset.active;
 }
 
-// display Book in DOM Table
+// Display Book in DOM Table
 function displayBookTable(book, isSearch) {
     const tbody = document.getElementById("book_tbody");
     const row = document.createElement('tr');
@@ -174,15 +177,14 @@ function displayBookTable(book, isSearch) {
     tbody.appendChild(row);
 }
 
-// import books in json format
+// Import books in json format
 function importBooks() {
 
 }
 
-//var obj = {a: "Hello", b: "World"};
-//exportToJsonFile( JSON.stringify(obj) );
+// Export myLibrary list as JSON data format to client
 function exportToJsonFile() {
-    const jsonData = { library: myLibrary };
+    const jsonData = [...myLibrary];
     let dataStr = JSON.stringify(jsonData);
     let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
@@ -194,17 +196,15 @@ function exportToJsonFile() {
     linkElement.click();
 }
 
+// Convert jsonData to CSV format
 function parseJSONToCSVStr(jsonData) {
-
-    if(jsonData.length == 0) {
+    if(jsonData.length === 0) {
         return '';
     }
 
     let keys = Object.keys(jsonData[0]);
-
     let columnDelimiter = ',';
     let lineDelimiter = '\n';
-
     let csvColumnHeader = keys.join(columnDelimiter);
     let csvStr = csvColumnHeader + lineDelimiter;
 
@@ -228,12 +228,12 @@ function parseJSONToCSVStr(jsonData) {
     return encodeURIComponent(csvStr);;
 }
 
+// Export myLibrary list as CSV file format to client
 function exportToCsvFile() {
-    const jsonData = { library: myLibrary };
+    const jsonData = [...myLibrary];
 
     let csvStr = parseJSONToCSVStr(jsonData);
     let dataUri = 'data:text/csv;charset=utf-8,'+ csvStr;
-
     let exportFileDefaultName = 'data.csv';
 
     let linkElement = document.createElement('a');
@@ -242,6 +242,7 @@ function exportToCsvFile() {
     linkElement.click();
 }
 
+// Search https://openlibrary.org/developers/api for book using search_term
 function searchForBook(event) {
     event.preventDefault();
 
@@ -252,6 +253,7 @@ function searchForBook(event) {
     };
 }
 
+// Update carousel active slide and add animation class to element for page turn animation
 function handleCarouselClick(event) {
     const button = event.target;
     const offset = button.dataset.carouselButton === "next" ? 1 : -1;
@@ -275,12 +277,14 @@ function handleCarouselClick(event) {
     }, 650);
 }
 
+// After CSS page turn animation completes, remove animation class from the element
 function removeAnimation(event) {
     const animated_slide = document.getElementById(`${event.target.id}`);
     const animation = animated_slide.classList.contains("animate") ? "animate" : "rev_animate";
     animated_slide.classList.remove(`${animation}`);
 }
 
+// Set up event listeners
 function addListeners() {
     const search_form = document.getElementById("search_form");
     const book_form = document.getElementById("book_form");
@@ -305,5 +309,6 @@ function addListeners() {
     export_libCSV_btn.addEventListener("click", exportToCsvFile);
 }
 
+// Initialize listeners and current myLibrary
 addListeners();
 displayLibrary();
