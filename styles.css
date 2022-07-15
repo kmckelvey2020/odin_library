@@ -206,7 +206,7 @@ ul.nav_links a {
     width: max-content;
 }
 
-.search_btn {
+.search_btn, .import_libCSV_btn {
     margin: 0 auto;
 }
 

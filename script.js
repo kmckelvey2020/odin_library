@@ -177,9 +177,28 @@ function displayBookTable(book, isSearch) {
     tbody.appendChild(row);
 }
 
-// Import books in json format
-function importBooks() {
+// Import books in json format from CSV format
+function importBooksCSV(event) {
+    event.preventDefault();
 
+    const formData = new FormData(this);
+    const csv = formData.get("import_file");
+    const columnDelimiter = ',';
+    const lineDelimiter = '\n';
+    const lines = csv.split(lineDelimiter);
+    const headers = lines[0].split(columnDelimiter);
+
+    for(let i=1; i<lines.length; i++) {
+        let book = {};
+        let currentline = lines[i].split(columnDelimiter);
+  
+        for(let j=0; j<headers.length; j++) {
+            book[headers[j]] = currentline[j];
+        }
+  
+        myLibrary.push(book);
+    }
+    displayLibrary();    
 }
 
 // Export myLibrary list as JSON data format to client
@@ -202,10 +221,10 @@ function parseJSONToCSVStr(jsonData) {
         return '';
     }
 
-    let keys = Object.keys(jsonData[0]);
-    let columnDelimiter = ',';
-    let lineDelimiter = '\n';
-    let csvColumnHeader = keys.join(columnDelimiter);
+    const keys = Object.keys(jsonData[0]);
+    const columnDelimiter = ',';
+    const lineDelimiter = '\n';
+    const csvColumnHeader = keys.join(columnDelimiter);
     let csvStr = csvColumnHeader + lineDelimiter;
 
     jsonData.forEach(item => {
@@ -293,6 +312,7 @@ function addListeners() {
     const display_lib_btn = document.getElementById("display_lib_btn");
     const export_libJSON_btn = document.getElementById("export_libJSON_btn");
     const export_libCSV_btn = document.getElementById("export_libCSV_btn");
+    const import_libCSV_btn = document.getElementById("import_libCSV_btn");
 
     search_form.addEventListener("submit", searchForBook);
     book_form.addEventListener("submit", addBookToLibrary);
@@ -307,6 +327,7 @@ function addListeners() {
     });
     export_libJSON_btn.addEventListener("click", exportToJsonFile);
     export_libCSV_btn.addEventListener("click", exportToCsvFile);
+    import_libCSV_btn.addEventListener("click", importBooksCSV);
 }
 
 // Initialize listeners and current myLibrary
