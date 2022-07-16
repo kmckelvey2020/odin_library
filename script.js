@@ -36,6 +36,16 @@ let myLibrary = [
     }
 ];
 
+const default_slides_innerHTML = `
+    <li class="default slide" data-active>
+        <div class="page6"><h3>Click "Add Book" to add to your library</h3></div>
+        <div class="page5">
+            <p>Add books to get started</p>
+            <p>You can export your list!</p>
+            <p>Try importing an existing list!</p>
+        </div> 
+    </li>`;
+
 function Book(title, author, isbn, pages, read) {
     // Book constructor
     this.title = title;
@@ -55,6 +65,12 @@ function addBookToLibrary(event) {
     myLibrary.push(book);
     displayBookCarousel(book); // add to DOM Carousel
     displayBookTable(book); // add to DOM Table
+    alert("Book added successfully.");
+}
+
+//
+function validateInputs() {
+
 }
 
 // Remove book from myLibrary array and from DOM
@@ -76,6 +92,10 @@ function removeBookFromLibrary(event) {
     }) 
     myLibrary.pop();
 
+    if(myLibrary.length === 0) {
+        slides.innerHTML = default_slides_innerHTML;
+    }
+
     if(!slides.querySelector("[data-active]")) {
         slides.lastElementChild.dataset.active = true;
     }
@@ -83,6 +103,19 @@ function removeBookFromLibrary(event) {
 
 // Toggle read status from unread to read or vice versa
 function toggleReadStatus(book) {
+    const index = myLibrary.indexOf(book);
+
+    const readStatus = book.read;
+    let newReadStatus;
+    if(readStatus==="yes") newReadStatus = "no";
+    if(readStatus==="no") newReadStatus = "yes";
+
+    myLibrary[index].read = newReadStatus;
+    const readListItem = document.getElementById(`readcarousel${book.isbn}`);
+    readListItem.innerHTML = `Read: ${newReadStatus}`;
+
+    const readTableCell = document.getElementById(`readtable${book.isbn}`);
+    readTableCell.innerHTML = `${newReadStatus}`
 
 }
 
@@ -92,50 +125,75 @@ function displayLibrary() {
     displayLibraryTable(false); // isSearch = false
 }
 
-// Display myLibrary elements in book carousel
+// Reset carousel and display myLibrary elements in book carousel
 function displayLibraryCarousel() {
+    const slides = document.getElementById("book_slides");
+    slides.innerHTML = "";
+
     myLibrary.forEach((book) => {
         displayBookCarousel(book)
     });
+
+    if(myLibrary.length === 0) {
+        slides.innerHTML = default_slides_innerHTML;
+    }
 }
 
-// Reset tbody and display myLibrary elements in tbody in DOM
-function displayLibraryTable(isSearch) {
+// Reset tbody and display myLibrary elements (or search_arr elements) in tbody in DOM
+function displayLibraryTable(isSearch, search_arr=[]) {
     const tbody = document.getElementById("book_tbody");
     tbody.innerHTML = "";
-    myLibrary.forEach((book) => {
-        displayBookTable(book, isSearch)
-    });
+    const table_title = document.getElementById("table_title");
+
+    if(!isSearch) {
+        table_title.innerHTML = "MyLibrary:";
+        table_title.className = "lib_title";
+        tbody.className = "book_tbody myLibrary_tbody";
+        myLibrary.forEach((book) => {
+            displayBookTable(book, isSearch)
+        });
+    } else {
+        table_title.innerHTML = "Search Results:";
+        table_title.className = "search_title";
+        tbody.className = "book_tbody search_tbody";
+        search_arr.forEach((book) => {
+            displayBookTable(book, isSearch)
+        });
+    }
+
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', "#table_title");
+    linkElement.click();
 }
 
 // Display Book in DOM Carousel
 function displayBookCarousel(book) {
-    const unorderedList = document.getElementById("book_slides");
+    const slides = document.getElementById("book_slides");
     const bookListItem = document.createElement('li');
     bookListItem.id = `${book.isbn}`;
     bookListItem.className = "slide";
     bookListItem.innerHTML = `
         <div class="page6">
-            <h2>${book.title}</h2>
+            <h3>${book.title}</h3>
         </div>
         <div class="page5">
             <p>Author: ${book.author}</p>
             <p>ISBN: ${book.isbn}</p>
             <p>Pages: ${book.pages}</p>
-            <p>Read: ${book.read}</p>
+            <p id="readcarousel${book.isbn}">Read: ${book.read}</p>
         </div> 
         `;
 
     const del = document.createElement('button');
-    del.innerHTML = `Delete Book`;
+    del.innerHTML = `Delete`;
     del.id = "del_btn";
     del.className = "btn del_btn";
     del.value = `${book.isbn}`;
     del.addEventListener("click", removeBookFromLibrary);
 
-    const activeSlide = unorderedList.querySelector("[data-active]");
+    const activeSlide = slides.querySelector("[data-active]");
     bookListItem.dataset.active = true;
-    unorderedList.appendChild(bookListItem);
+    slides.appendChild(bookListItem);
     bookListItem.querySelector(".page6").appendChild(del);
     if(activeSlide) delete activeSlide.dataset.active;
 }
@@ -150,10 +208,11 @@ function displayBookTable(book, isSearch) {
         <td>${book.author}</td>
         <td>${book.isbn}</td>
         <td>${book.pages}</td>
-        <td>${book.read}</td>
+        <td id="readtable${book.isbn}">${book.read}</td>
         `;
 
     const cell = document.createElement('td');
+    cell.className = "options";
     const button = document.createElement('button');
     if(!isSearch){
         button.innerHTML = `DEL`;
@@ -166,12 +225,25 @@ function displayBookTable(book, isSearch) {
         button.id = "add_btn";
         button.className = "btn add_btn";
         button.value = `${book.isbn}`;
-        button.addEventListener("click", (book) => {
+        button.addEventListener("click", () => {
             myLibrary.push(book);
             displayBookCarousel(book); // add to DOM Carousel
+            alert("Book added successfully.");
         });
     }
     
+    const toggle = document.createElement('button');
+    toggle.innerHTML = "Toggle Read";
+    toggle.id = "toggle_read";
+    toggle.className = "btn toggle_read";
+    toggle.value = `${book.isbn}`;
+    toggle.addEventListener("click", () => {
+        toggleReadStatus(book);
+    });
+    
+    if(!isSearch){
+        cell.appendChild(toggle);
+    }
     cell.appendChild(button);
     row.appendChild(cell);
     tbody.appendChild(row);
@@ -180,25 +252,38 @@ function displayBookTable(book, isSearch) {
 // Import books in json format from CSV format
 function importBooksCSV(event) {
     event.preventDefault();
-
     const formData = new FormData(this);
     const csv = formData.get("import_file");
-    const columnDelimiter = ',';
-    const lineDelimiter = '\n';
-    const lines = csv.split(lineDelimiter);
-    const headers = lines[0].split(columnDelimiter);
 
-    for(let i=1; i<lines.length; i++) {
-        let book = {};
-        let currentline = lines[i].split(columnDelimiter);
-  
-        for(let j=0; j<headers.length; j++) {
-            book[headers[j]] = currentline[j];
-        }
-  
-        myLibrary.push(book);
+    if(csv.size===0) {
+        alert("No file was chosen for upload. Please choose a csv file in the correct format (Headers: Title, Author, ISBN, Pages, Read).");
+        return;
     }
-    displayLibrary();    
+
+    const reader = new FileReader();
+    reader.readAsText(csv);
+    reader.onload = () => {
+        const csvText = reader.result.replace(/[\r]/g, '');
+        const columnDelimiter = ',';
+        const lineDelimiter = '\n';
+        const lines = csvText.split(lineDelimiter);
+        const headers = lines[0].split(columnDelimiter);
+        //console.log(headers);
+        
+        for(let i=1; i<lines.length; i++) {
+            if (!lines[i]) continue;
+            let book = {};
+            let currentline = lines[i].split(columnDelimiter);
+
+            for(let j=0; j<=headers.length; j++) {
+                book[headers[j]] = currentline[j];
+            }
+    
+            myLibrary.push(book);
+        }
+        displayLibrary(); 
+        alert("Books imported successfully.");   
+    }
 }
 
 // Export myLibrary list as JSON data format to client
@@ -234,13 +319,6 @@ function parseJSONToCSVStr(jsonData) {
             csvStr += columnDelimiter;
             }
         });
-
-        //keys.forEach((key, index) => {
-        //    if( (index > 0) && (index < keys.length-1) ) {
-        //        csvStr += columnDelimiter;
-        //    }
-        //    csvStr += item[key];
-        //});
         csvStr += lineDelimiter;
     });
 
@@ -266,10 +344,40 @@ function searchForBook(event) {
     event.preventDefault();
 
     const formData = new FormData(this);
-    console.log(formData.get("search_term"));
-    for(const [key, value] of formData) {
-        console.log(`${key}: ${value}`);
-    };
+    const search_term = formData.get("search_term");
+    const base_url = "http://openlibrary.org/search.json?q=";
+    const fields = "&fields=title,author_name,isbn,number_of_pages_median,availability&limit=5";
+    const search_url = `${base_url}${search_term}${fields}`;
+    const configurations={ method: 'GET' };
+    makeFetch(search_url, configurations);   
+}
+
+// Fetch results from https://openlibrary.org/developers/api
+const makeFetch = async (url, configurations) => {
+    await fetch(url, {
+        ...configurations
+    })
+    .then((response) => {
+        if(!response.ok) {
+            throw new Error("Failed to fetch.");
+        }
+        //console.log(response);
+        return response.json();
+    })
+    .then((data) => {
+        displaySearchResults(data.docs);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+}
+
+// Create Book Object for each search result and display in the library table
+function displaySearchResults(search_results) {
+    const search_arr = search_results.map((result) => {
+        return new Book(result.title, result.author_name[0], result.isbn[0], result.number_of_pages_median, "no");
+    })
+    displayLibraryTable(true, search_arr); // isSearch = true
 }
 
 // Update carousel active slide and add animation class to element for page turn animation
@@ -293,7 +401,7 @@ function handleCarouselClick(event) {
 
     setTimeout(() => {
         slides.children[newIndex].dataset.active = true;
-    }, 650);
+    }, 650); // Wait for page flip animation before making current slide active and visible
 }
 
 // After CSS page turn animation completes, remove animation class from the element
@@ -306,15 +414,16 @@ function removeAnimation(event) {
 // Set up event listeners
 function addListeners() {
     const search_form = document.getElementById("search_form");
+    const import_form = document.getElementById("import_form");
     const book_form = document.getElementById("book_form");
     const carousel_buttons = document.querySelectorAll(".carousel_button");
     const pages_to_turn = document.querySelectorAll(".turn");
     const display_lib_btn = document.getElementById("display_lib_btn");
     const export_libJSON_btn = document.getElementById("export_libJSON_btn");
     const export_libCSV_btn = document.getElementById("export_libCSV_btn");
-    const import_libCSV_btn = document.getElementById("import_libCSV_btn");
 
     search_form.addEventListener("submit", searchForBook);
+    import_form.addEventListener("submit", importBooksCSV);
     book_form.addEventListener("submit", addBookToLibrary);
     carousel_buttons.forEach(button => {
         button.addEventListener("click", handleCarouselClick);
@@ -327,7 +436,6 @@ function addListeners() {
     });
     export_libJSON_btn.addEventListener("click", exportToJsonFile);
     export_libCSV_btn.addEventListener("click", exportToCsvFile);
-    import_libCSV_btn.addEventListener("click", importBooksCSV);
 }
 
 // Initialize listeners and current myLibrary
