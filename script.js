@@ -379,6 +379,11 @@ function displaySearchResults(search_results) {
 // Update carousel active slide and add animation class to element for page turn animation
 function handleCarouselClick(event) {
     const button = event.target;
+    const carousel_buttons = document.querySelectorAll(".carousel_button");
+    carousel_buttons.forEach(button => {
+        button.setAttribute("disabled", true);
+    })
+
     const offset = button.dataset.carouselButton === "next" ? 1 : -1;
     const slides = button
         .closest("[data-carousel]")
@@ -397,6 +402,9 @@ function handleCarouselClick(event) {
 
     setTimeout(() => {
         slides.children[newIndex].dataset.active = true;
+        carousel_buttons.forEach(button => {
+            button.removeAttribute("disabled");
+        })
     }, 650); // Wait for page flip animation before making current slide active and visible
 }
 
