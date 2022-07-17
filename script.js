@@ -345,7 +345,7 @@ function searchForBook(event) {
 
     const formData = new FormData(this);
     const search_term = formData.get("search_term");
-    const base_url = "http://openlibrary.org/search.json?q=";
+    const base_url = "https://openlibrary.org/search.json?q=";
     const fields = "&fields=title,author_name,isbn,number_of_pages_median,availability&limit=5";
     const search_url = `${base_url}${search_term}${fields}`;
     const configurations={ method: 'GET' };
