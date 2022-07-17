@@ -160,10 +160,6 @@ function displayLibraryTable(isSearch, search_arr=[]) {
             displayBookTable(book, isSearch)
         });
     }
-
-    let linkElement = document.createElement('a');
-    linkElement.setAttribute('href', "#table_title");
-    linkElement.click();
 }
 
 // Display Book in DOM Carousel
@@ -433,6 +429,9 @@ function addListeners() {
     })
     display_lib_btn.addEventListener("click", () => {
             displayLibraryTable(false);
+            let linkElement = document.createElement('a');
+            linkElement.setAttribute('href', "#table_title");
+            linkElement.click();
     });
     export_libJSON_btn.addEventListener("click", exportToJsonFile);
     export_libCSV_btn.addEventListener("click", exportToCsvFile);
