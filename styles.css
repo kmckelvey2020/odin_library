@@ -317,6 +317,10 @@ input {
     width: min(70vw, 30rem);
 }
 
+input:focus:invalid {
+    outline: 1px solid red;
+}
+
 #import_file {
     padding: 0.27rem 1rem;
 }

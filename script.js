@@ -14,7 +14,7 @@ let myLibrary = [
         read: "no"
     },
     {
-        title: "The Duch Went Quack", 
+        title: "The Duck Went Quack", 
         author: "Little Bo Peep", 
         isbn: "8970695457445", 
         pages: 768, 
@@ -62,15 +62,32 @@ function addBookToLibrary(event) {
     const formData = new FormData(this);
     const book = new Book(formData.get("title"), formData.get("author"), formData.get("isbn"), formData.get("pages"), formData.get("read")==="on" ? "yes" : "no");
     
+    if(!isValidInput(book)) {
+        alert("Error: Invalid - Book already exists or inputs do not adhere to validation rules.");
+        return;
+    }
+
     myLibrary.push(book);
     displayBookCarousel(book); // add to DOM Carousel
     displayBookTable(book); // add to DOM Table
     alert("Book added successfully.");
 }
 
-//
-function validateInputs() {
-
+// Validate inputs
+function isValidInput(book) {
+    const title_pattern = /['\.\*\^\(\)\/a-zA-Z0-9!@#&?%_\s-]{1,35}/;
+    const author_pattern = /['a-zA-Z_\s-]{1,25}/;
+    const isbn_pattern = /[0-9-]{1,20}/;
+    const pages_pattern = /[0-9]{1,5}/;
+    
+    const book_exists = myLibrary.reduce((prev, curr) => {
+        if(prev || `${curr.isbn}` === `${book.isbn}`) {
+            return true;
+        } else return false;
+    }, false);
+    if(!book_exists && book.title.match(title_pattern) && book.author.match(author_pattern) && book.isbn.match(isbn_pattern) && book.pages.match(pages_pattern)) {
+        return true;
+    } else return false;
 }
 
 // Remove book from myLibrary array and from DOM
@@ -116,7 +133,6 @@ function toggleReadStatus(book) {
 
     const readTableCell = document.getElementById(`readtable${book.isbn}`);
     readTableCell.innerHTML = `${newReadStatus}`
-
 }
 
 // Display myLibrary elements in carousel and table in DOM
@@ -180,13 +196,7 @@ function displayBookCarousel(book) {
         </div> 
         `;
 
-    const del = document.createElement('button');
-    del.innerHTML = `Delete`;
-    del.id = "del_btn";
-    del.className = "btn del_btn";
-    del.value = `${book.isbn}`;
-    del.addEventListener("click", removeBookFromLibrary);
-
+    const del = createButton("Delete", "del_btn", "btn del_btn", `${book.isbn}`, "click", removeBookFromLibrary)
     const activeSlide = slides.querySelector("[data-active]");
     bookListItem.dataset.active = true;
     slides.appendChild(bookListItem);
@@ -209,40 +219,41 @@ function displayBookTable(book, isSearch) {
 
     const cell = document.createElement('td');
     cell.className = "options";
-    const button = document.createElement('button');
+    let button = document.createElement('button');
     if(!isSearch){
-        button.innerHTML = `DEL`;
-        button.id = "del_btn";
-        button.className = "btn del_btn";
-        button.value = `${book.isbn}`;
-        button.addEventListener("click", removeBookFromLibrary);
+        button = createButton("DEL", "del_btn", "btn del_btn", `${book.isbn}`, "click", removeBookFromLibrary)
     } else { //isSearch === true (user searched for possible books to add to list using library api)
-        button.innerHTML = `ADD`;
-        button.id = "add_btn";
-        button.className = "btn add_btn";
-        button.value = `${book.isbn}`;
-        button.addEventListener("click", () => {
+        button = createButton("ADD", "add_btn", "btn add_btn", `${book.isbn}`, "click", () => {
+            if(!isValidInput(book)) {
+                alert("Error: Invalid - Book already exists or input exceeds character limit.");
+                return;
+            }
             myLibrary.push(book);
             displayBookCarousel(book); // add to DOM Carousel
             alert("Book added successfully.");
         });
     }
     
-    const toggle = document.createElement('button');
-    toggle.innerHTML = "Toggle Read";
-    toggle.id = "toggle_read";
-    toggle.className = "btn toggle_read";
-    toggle.value = `${book.isbn}`;
-    toggle.addEventListener("click", () => {
-        toggleReadStatus(book);
-    });
-    
     if(!isSearch){
+        const toggle = createButton("Toggle Read", "toggle_read", "btn toggle_read", `${book.isbn}`, "click", () => {
+            toggleReadStatus(book);
+        })
         cell.appendChild(toggle);
     }
     cell.appendChild(button);
     row.appendChild(cell);
     tbody.appendChild(row);
+}
+
+// Create new button with given attributes
+function createButton(innerHTML, id, class_name, value, event_name, event_cb) {
+    const button = document.createElement('button');
+    button.innerHTML = innerHTML;
+    button.id = id;
+    button.className = class_name;
+    button.value = value;
+    button.addEventListener(event_name, event_cb);
+    return button;
 }
 
 // Import books in json format from CSV format
@@ -264,7 +275,7 @@ function importBooksCSV(event) {
         const lineDelimiter = '\n';
         const lines = csvText.split(lineDelimiter);
         const headers = lines[0].split(columnDelimiter);
-        //console.log(headers);
+        console.log(headers);
         
         for(let i=1; i<lines.length; i++) {
             if (!lines[i]) continue;
@@ -285,12 +296,12 @@ function importBooksCSV(event) {
 // Export myLibrary list as JSON data format to client
 function exportToJsonFile() {
     const jsonData = [...myLibrary];
-    let dataStr = JSON.stringify(jsonData);
-    let dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    const dataStr = JSON.stringify(jsonData);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
 
-    let exportFileDefaultName = 'data.json';
+    const exportFileDefaultName = 'data.json';
 
-    let linkElement = document.createElement('a');
+    const linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
@@ -325,11 +336,11 @@ function parseJSONToCSVStr(jsonData) {
 function exportToCsvFile() {
     const jsonData = [...myLibrary];
 
-    let csvStr = parseJSONToCSVStr(jsonData);
-    let dataUri = 'data:text/csv;charset=utf-8,'+ csvStr;
-    let exportFileDefaultName = 'data.csv';
+    const csvStr = parseJSONToCSVStr(jsonData);
+    const dataUri = 'data:text/csv;charset=utf-8,'+ csvStr;
+    const exportFileDefaultName = 'data.csv';
 
-    let linkElement = document.createElement('a');
+    const linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
@@ -357,7 +368,6 @@ const makeFetch = async (url, configurations) => {
         if(!response.ok) {
             throw new Error("Failed to fetch.");
         }
-        //console.log(response);
         return response.json();
     })
     .then((data) => {
@@ -371,7 +381,7 @@ const makeFetch = async (url, configurations) => {
 // Create Book Object for each search result and display in the library table
 function displaySearchResults(search_results) {
     const search_arr = search_results.map((result) => {
-        return new Book(result.title, result.author_name[0], result.isbn[0], result.number_of_pages_median, "no");
+        return new Book(result.title, result.author_name[0], result.isbn[0], `${result.number_of_pages_median}`, "no");
     })
     displayLibraryTable(true, search_arr); // isSearch = true
 }
