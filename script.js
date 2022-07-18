@@ -70,6 +70,7 @@ function addBookToLibrary(event) {
     myLibrary.push(book);
     displayBookCarousel(book); // add to DOM Carousel
     displayBookTable(book); // add to DOM Table
+    clearFields();
     alert("Book added successfully.");
 }
 
@@ -88,6 +89,15 @@ function isValidInput(book) {
     if(!book_exists && book.title.match(title_pattern) && book.author.match(author_pattern) && book.isbn.match(isbn_pattern) && book.pages.match(pages_pattern)) {
         return true;
     } else return false;
+}
+
+// Clear form input fields
+function clearFields() {
+    document.getElementById("title").value = '';
+    document.getElementById("author").value = '';
+    document.getElementById("isbn").value = '';
+    document.getElementById("pages").value = '';
+    document.getElementById("read").value = null;
 }
 
 // Remove book from myLibrary array and from DOM
