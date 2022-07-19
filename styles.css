@@ -190,10 +190,10 @@ ul.nav_links a {
         inset 0.1rem 0.1rem 0.1rem 0rem white;
     color: white;
     font-family: 'Roboto', sans-serif;
-    font-size: min(5vw, 1rem);
-    margin: 0.5rem auto;
+    font-size: min(4vw, 1rem);
+    margin: 0.25rem auto;
     min-width: min(30vw, 7rem);
-    padding: 0.25rem 1rem;
+    padding: 0.25rem 0.5rem;
     text-align: center;
     text-shadow: 0.1rem 0.1rem 0rem black,
         0.1rem 0.1rem 0.5rem black;
@@ -205,7 +205,7 @@ ul.nav_links a {
         inset 0.1rem 0.1rem 0.1rem 0rem white;
     float: right;
     padding: 0rem 0.25rem;
-    margin: 0 auto;
+    margin: 0;
     margin-right: 0rem;
     width: max-content;
 }
@@ -214,7 +214,7 @@ ul.nav_links a {
     margin: 0 auto;
 }
 
-.del_btn, .add_btn, .display_lib_btn, .export_libJSON_btn, .export_libCSV_btn, .save_btn, .toggle_read {
+.del_btn, .add_btn, .display_lib_btn, .delete_lib_btn, .export_libCSV_btn, .save_btn, .toggle_read {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -225,8 +225,8 @@ ul.nav_links a {
 }
 
 .del_btn, .add_btn, .toggle_read {
-    min-width: min(15vw, 5rem);
-    max-width: min(15vw, 5rem);
+    min-width: min(17vw, 5rem);
+    max-width: min(17vw, 5rem);
 }
 
 .form_buttons {
@@ -248,11 +248,11 @@ ul.nav_links a {
 
 .modal_header {
     margin: 0 auto;
-    padding: 0.5rem 1rem;
+    padding: 0rem 0rem;
 }
 
 .overlay {
-
+    margin: 0 auto;
 }
 
 /* *********************************** //
@@ -264,7 +264,7 @@ ul.nav_links a {
     border: 2px solid rgb(55, 35, 35);
     box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     margin: 1rem auto;
-    padding: 1rem 1rem;
+    padding: 0.25rem 0.25rem;
     width: min(85vw, 75rem);
 
     display: grid;
@@ -273,12 +273,26 @@ ul.nav_links a {
     align-items: center;
 }
 
+.form_container h2 {
+    display: block;
+    grid-column: 1/2;
+    margin: 0rem auto;
+}
+
+.form_border {
+    border: 2px solid rgb(55, 35, 35);
+    border-radius: 0.5rem;
+    grid-column: 1/2;
+    margin: 0rem auto;
+    padding: 0.5rem 0.5rem;
+}
+
 .form {
     grid-column: 1/2;
     border: 0;
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);
-    margin: 1rem auto;
+    margin: 0.25rem auto;
 
     display: flex;
     flex-wrap: wrap;
@@ -573,6 +587,7 @@ li.slide[data-active] {
 }
 
 .page5 h3, .page6 h3 {
+    line-height: min(7vw, 2.25rem);
     margin: 0;
     padding: 0.25rem 0.25rem;
     text-align: center;
@@ -581,10 +596,10 @@ li.slide[data-active] {
 .page5 p, .page6 p {
     font-size: min(3.5vw, 1rem);
     margin: 0;
-    padding: 0.25rem 0.25rem;
+    padding: 0.125rem 0.125rem;
 }
 
-.page5 h3, .page5 p {
+.page5 h3, .page5 p, .page5 .toggle_read {
     transform: rotateY(-180deg);
 }
 
@@ -619,7 +634,7 @@ li.slide[data-active] {
     border: 2px solid rgb(55, 35, 35);
     box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     margin: 0rem auto;
-    padding: 1rem auto;
+    padding: 0.25rem auto;
     text-align: center;
     width: min(85vw, 75rem);
 
@@ -632,6 +647,11 @@ li.slide[data-active] {
 .table_container h2 {
     display: block;
     grid-column: 1/2;
+    margin: 0rem auto;
+}
+
+.table_container p {
+    padding: 0rem 0.25rem;
 }
 
 .lib_title, .modal_header h2 {
@@ -649,7 +669,7 @@ table {
     border-collapse: collapse;
     display: inline-block;
     grid-column: 1/2;
-    margin: 1rem auto;
+    margin: 0.25rem auto;
     overflow-x: scroll;
     padding: 0rem auto;
     position: relative;

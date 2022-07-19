@@ -53,11 +53,9 @@
                     </div>
                 </section>
                 <section id="form_container" class="form_container">
-                    <div class="modal" id="modal">
-                        <div class="modal_header">
-                            <button class="close_button" type="button" id="close" name="close"><img src="" alt="" />&times;</button>
-                            <h2>Add New Book</h2>
-                        </div>
+                    <h2>Add New Book</h2>
+                    <div class="form_border" id="form_border">
+                        <button class="close_button" type="button" id="close" name="close">&times;</button><br/>
                         <form class="form" action="" method="post" id="book_form">
                             <fieldset class="field">
                                 <label for="title">Book title:</label><br/>
@@ -70,7 +68,7 @@
                             <fieldset class="field">
                                 <label for="pages">Book pages:</label><br/>
                                 <input type="text" id="pages" name="pages" placeholder="Enter pages..." pattern="[0-9]{1,5}" title="Please enter a valid number of pages (up to 99999)." required /><br/>
-                                <label for="read">Have you read this book?
+                                <label for="read" id="read_label">Have you read this book?
                                     <div class="toggle">
                                         <input type="checkbox" id="read" name="read" class="read" />
                                         <span class="toggle_display" hidden>
@@ -112,7 +110,7 @@
                                 <div class="form_buttons">
                                     <button class="btn save_btn" type="submit" id="save_btn" name="save_btn">Save this book</button>
                                     <button class="btn display_lib_btn" type="button" id="display_lib_btn" name="display_lib_btn">Display MyLibrary</button>
-                                    <button class="btn export_libJSON_btn" type="button" id="export_libJSON_btn" name="export_libJSON_btn">Export myLibrary (JSON)</button>
+                                    <button class="btn delete_lib_btn" type="button" id="delete_lib_btn" name="delete_lib_btn">Delete myLibrary</button>
                                     <button class="btn export_libCSV_btn" type="button" id="export_libCSV_btn" name="export_libCSV_btn">Export myLibrary (CSV)</button>
                                 </div>
                             </fieldset>
@@ -134,10 +132,10 @@
                             </form>
                         </div>
                     </div>
-                    <div class="overlay" id="overlay"></div>
                 </section>
                 <section class="table_container">
                     <h2 id="table_title">MyLibrary:</h2>
+                    <p>On smaller screens, you may need to scroll left/right to view entire table.</p>
                     <table id="book_table" class="book_table">
                         <thead>
                             <tr>

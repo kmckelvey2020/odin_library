@@ -1,50 +1,7 @@
-let myLibrary = [
-    {
-        title: "The Hunchback of Notredame", 
-        author: "Monte Cristo", 
-        isbn: "789456123354", 
-        pages: 562, 
-        read: "yes"
-    },
-    {
-        title: "Dog Breeds of the World", 
-        author: "Doggino Puppicino", 
-        isbn: "456353457643", 
-        pages: 342, 
-        read: "no"
-    },
-    {
-        title: "The Duck Went Quack", 
-        author: "Little Bo Peep", 
-        isbn: "8970695457445", 
-        pages: 768, 
-        read: "yes"
-    },
-    {
-        title: "Exploration of Mars", 
-        author: "Charlotte Authorson", 
-        isbn: "8567856123354", 
-        pages: 58, 
-        read: "yes"
-    },
-    {
-        title: "Goldilocks and the Three Bears", 
-        author: "Mother Goose", 
-        isbn: "1234523354", 
-        pages: 142, 
-        read: "no"
-    }
-];
 
-const default_slides_innerHTML = `
-    <li class="default slide" data-active>
-        <div class="page6"><h3>Click "Add Book" to add to your library</h3></div>
-        <div class="page5">
-            <p>Add books to get started</p>
-            <p>You can export your list!</p>
-            <p>Try importing an existing list!</p>
-        </div> 
-    </li>`;
+/* *********************************** //
+//                BOOK                 //
+// *********************************** */
 
 function Book(title, author, isbn, pages, read) {
     // Book constructor
@@ -67,7 +24,7 @@ function addBookToLibrary(event) {
         return;
     }
 
-    myLibrary.push(book);
+    addBookToStorage(book);
     displayBookCarousel(book); // add to DOM Carousel
     displayBookTable(book); // add to DOM Table
     clearFields();
@@ -80,13 +37,13 @@ function isValidInput(book) {
     const author_pattern = /['a-zA-Z_\s-]{1,25}/;
     const isbn_pattern = /[0-9-]{1,20}/;
     const pages_pattern = /[0-9]{1,5}/;
-    
+    const myLibrary = getLibrary();
     const book_exists = myLibrary.reduce((prev, curr) => {
         if(prev || `${curr.isbn}` === `${book.isbn}`) {
             return true;
         } else return false;
     }, false);
-    if(!book_exists && book.title.match(title_pattern) && book.author.match(author_pattern) && book.isbn.match(isbn_pattern) && book.pages.match(pages_pattern)) {
+    if(!book_exists && book.title.trim().match(title_pattern) && book.author.trim().match(author_pattern) && book.isbn.trim().match(isbn_pattern) && book.pages.trim().match(pages_pattern)) {
         return true;
     } else return false;
 }
@@ -112,12 +69,8 @@ function removeBookFromLibrary(event) {
     const book_row = document.getElementById(`row${isbn}`);
     book_row.remove();
 
-    myLibrary.sort((a,b) => {
-        if(a.isbn === `${isbn}`) return 1;
-        if(b.isbn === `${isbn}`) return -1;
-        if(a.isbn !== `${isbn}` && b.isbn !== `${isbn}`) return 0;
-    }) 
-    myLibrary.pop();
+    removeBookFromStorage(isbn);
+    const myLibrary = getLibrary();
 
     if(myLibrary.length === 0) {
         slides.innerHTML = default_slides_innerHTML;
@@ -129,21 +82,32 @@ function removeBookFromLibrary(event) {
 }
 
 // Toggle read status from unread to read or vice versa
-function toggleReadStatus(book) {
-    const index = myLibrary.indexOf(book);
+function toggleReadStatus(isbn) {
+    const myLibrary = getLibrary();
+    const index = myLibrary.reduce((prev, curr, book_index) => {
+        if(curr.isbn===isbn) {
+            return book_index;
+        } else return prev;
+    }, -1);
 
-    const readStatus = book.read;
+    const readStatus = myLibrary[index].read;
     let newReadStatus;
     if(readStatus==="yes") newReadStatus = "no";
     if(readStatus==="no") newReadStatus = "yes";
 
-    myLibrary[index].read = newReadStatus;
-    const readListItem = document.getElementById(`readcarousel${book.isbn}`);
+    if(index!==-1) myLibrary[index].read = newReadStatus;
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+
+    const readListItem = document.getElementById(`readcarousel${isbn}`);
     readListItem.innerHTML = `Read: ${newReadStatus}`;
 
-    const readTableCell = document.getElementById(`readtable${book.isbn}`);
+    const readTableCell = document.getElementById(`readtable${isbn}`);
     readTableCell.innerHTML = `${newReadStatus}`
 }
+
+/* *********************************** //
+//           DISPLAY LIBRARY           //
+// *********************************** */
 
 // Display myLibrary elements in carousel and table in DOM
 function displayLibrary() {
@@ -151,11 +115,22 @@ function displayLibrary() {
     displayLibraryTable(false); // isSearch = false
 }
 
+const default_slides_innerHTML = `
+    <li class="default slide" data-active>
+        <div class="page6"><h3>Click "Add Book" to add to your library</h3></div>
+        <div class="page5">
+            <p>Add books to get started</p>
+            <p>You can export your list!</p>
+            <p>Try importing an existing list!</p>
+        </div> 
+    </li>`;
+
 // Reset carousel and display myLibrary elements in book carousel
 function displayLibraryCarousel() {
     const slides = document.getElementById("book_slides");
     slides.innerHTML = "";
 
+    const myLibrary = getLibrary();
     myLibrary.forEach((book) => {
         displayBookCarousel(book)
     });
@@ -175,6 +150,7 @@ function displayLibraryTable(isSearch, search_arr=[]) {
         table_title.innerHTML = "MyLibrary:";
         table_title.className = "lib_title";
         tbody.className = "book_tbody myLibrary_tbody";
+        const myLibrary = getLibrary();
         myLibrary.forEach((book) => {
             displayBookTable(book, isSearch)
         });
@@ -207,9 +183,13 @@ function displayBookCarousel(book) {
         `;
 
     const del = createButton("Delete", "del_btn", "btn del_btn", `${book.isbn}`, "click", removeBookFromLibrary)
+    const toggle = createButton("Toggle Read", "toggle_read", "btn toggle_read", `${book.isbn}`, "click", () => {
+        toggleReadStatus(book.isbn);
+    })
     const activeSlide = slides.querySelector("[data-active]");
     bookListItem.dataset.active = true;
     slides.appendChild(bookListItem);
+    bookListItem.querySelector(".page5").appendChild(toggle);
     bookListItem.querySelector(".page6").appendChild(del);
     if(activeSlide) delete activeSlide.dataset.active;
 }
@@ -235,10 +215,10 @@ function displayBookTable(book, isSearch) {
     } else { //isSearch === true (user searched for possible books to add to list using library api)
         button = createButton("ADD", "add_btn", "btn add_btn", `${book.isbn}`, "click", () => {
             if(!isValidInput(book)) {
-                alert("Error: Invalid - Book already exists or input exceeds character limit.");
+                alert("Error: Invalid - Book already exists, a required field is missing, or input exceeds character limit.");
                 return;
             }
-            myLibrary.push(book);
+            addBookToStorage(book);
             displayBookCarousel(book); // add to DOM Carousel
             alert("Book added successfully.");
         });
@@ -246,7 +226,7 @@ function displayBookTable(book, isSearch) {
     
     if(!isSearch){
         const toggle = createButton("Toggle Read", "toggle_read", "btn toggle_read", `${book.isbn}`, "click", () => {
-            toggleReadStatus(book);
+            toggleReadStatus(book.isbn);
         })
         cell.appendChild(toggle);
     }
@@ -265,6 +245,10 @@ function createButton(innerHTML, id, class_name, value, event_name, event_cb) {
     button.addEventListener(event_name, event_cb);
     return button;
 }
+
+/* *********************************** //
+//       IMPORT/EXPORT BOOK LISTS      //
+// *********************************** */
 
 // Import books in json format from CSV format
 function importBooksCSV(event) {
@@ -295,8 +279,7 @@ function importBooksCSV(event) {
             for(let j=0; j<=headers.length; j++) {
                 book[headers[j]] = currentline[j];
             }
-    
-            myLibrary.push(book);
+            addBookToStorage(book);
         }
         displayLibrary(); 
         alert("Books imported successfully.");   
@@ -305,6 +288,7 @@ function importBooksCSV(event) {
 
 // Export myLibrary list as JSON data format to client
 function exportToJsonFile() {
+    const myLibrary = getLibrary();
     const jsonData = [...myLibrary];
     const dataStr = JSON.stringify(jsonData);
     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
@@ -344,6 +328,7 @@ function parseJSONToCSVStr(jsonData) {
 
 // Export myLibrary list as CSV file format to client
 function exportToCsvFile() {
+    const myLibrary = getLibrary();
     const jsonData = [...myLibrary];
 
     const csvStr = parseJSONToCSVStr(jsonData);
@@ -355,6 +340,47 @@ function exportToCsvFile() {
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
 }
+
+/* *********************************** //
+//              STORAGE                //
+// *********************************** */
+
+function getLibrary() {
+    let myLibrary;
+    if(localStorage.getItem('myLibrary')===null) {
+        myLibrary = [];
+    } else {
+        myLibrary = JSON.parse(localStorage.getItem('myLibrary'));
+    }
+    return myLibrary;
+}
+
+function addBookToStorage(book) {
+    const myLibrary = getLibrary();
+    myLibrary.push(book);
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+}
+
+function removeBookFromStorage(book) {
+    const myLibrary = getLibrary();
+    myLibrary.forEach((lib_book, index) => {
+        if(lib_book.isbn===book.isbn) {
+            myLibrary.splice(index,1);
+        }
+    });
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+}
+
+function deleteLibraryFromStorage() {
+    const myLibrary = [];
+    localStorage.setItem('myLibrary', JSON.stringify(myLibrary));
+    displayLibrary();
+    alert("MyLibrary was successfully deleted.");   
+}
+
+/* *********************************** //
+//        SEARCH FOR NEW BOOKS         //
+// *********************************** */
 
 // Search https://openlibrary.org/developers/api for book using search_term
 function searchForBook(event) {
@@ -390,11 +416,19 @@ const makeFetch = async (url, configurations) => {
 
 // Create Book Object for each search result and display in the library table
 function displaySearchResults(search_results) {
+    if(!search_results) {
+        alert("No search results found. Try a different search term.");
+        return;
+    }
     const search_arr = search_results.map((result) => {
-        return new Book(result.title, result.author_name[0], result.isbn[0], `${result.number_of_pages_median}`, "no");
+        return new Book(`${result.title}`, result.author_name && result.author_name[0] ? `${result.author_name[0]}` : "N/A", result.isbn && result.isbn[0] ? `${result.isbn[0]}` : "N/A", result.number_of_pages_median ? `${result.number_of_pages_median}` : "N/A", "no");
     })
     displayLibraryTable(true, search_arr); // isSearch = true
 }
+
+/* *********************************** //
+//           CAROUSEL UI               //
+// *********************************** */
 
 // Update carousel active slide and add animation class to element for page turn animation
 function handleCarouselClick(event) {
@@ -435,6 +469,12 @@ function removeAnimation(event) {
     animated_slide.classList.remove(`${animation}`);
 }
 
+/* *************************************** //
+// INITIALIZE LISTENERS AND LIBRARY IN DOM //
+// *************************************** */
+
+// TO DO: ADD EVENT LISTENERS FOR KEYBOARD STROKES
+
 // Set up event listeners
 function addListeners() {
     const search_form = document.getElementById("search_form");
@@ -443,7 +483,7 @@ function addListeners() {
     const carousel_buttons = document.querySelectorAll(".carousel_button");
     const pages_to_turn = document.querySelectorAll(".turn");
     const display_lib_btn = document.getElementById("display_lib_btn");
-    const export_libJSON_btn = document.getElementById("export_libJSON_btn");
+    const delete_lib_btn = document.getElementById("delete_lib_btn");
     const export_libCSV_btn = document.getElementById("export_libCSV_btn");
 
     search_form.addEventListener("submit", searchForBook);
@@ -461,7 +501,7 @@ function addListeners() {
             linkElement.setAttribute('href', "#table_title");
             linkElement.click();
     });
-    export_libJSON_btn.addEventListener("click", exportToJsonFile);
+    delete_lib_btn.addEventListener("click", deleteLibraryFromStorage);
     export_libCSV_btn.addEventListener("click", exportToCsvFile);
 }
 
