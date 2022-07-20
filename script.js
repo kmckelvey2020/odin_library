@@ -445,6 +445,7 @@ const makeFetch = async (url, configurations) => {
 function displaySearchResults(search_results) {
     if(search_results.length===0) {
         alert("No search results found. Try a different search term.");
+        displayLibraryTable(true, []); // isSearch = true
         return;
     }
     const search_arr = search_results.map((result) => {
