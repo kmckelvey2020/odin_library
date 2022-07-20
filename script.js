@@ -162,10 +162,6 @@ function displayLibraryTable(isSearch, search_arr=[]) {
             displayBookTable(book, isSearch)
         });
     }
-
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', "#table_title");
-    linkElement.click();
 }
 
 // Display Book in DOM Carousel
@@ -511,7 +507,12 @@ function addListeners() {
     const search_form = document.getElementById("search_form");
     const import_form = document.getElementById("import_form");
     const book_form = document.getElementById("book_form");
-    search_form.addEventListener("submit", searchForBook);
+    search_form.addEventListener("submit", () => {
+        searchForBook();
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', "#table_title");
+        linkElement.click();
+    });
     import_form.addEventListener("submit", importBooksCSV);
     book_form.addEventListener("submit", addBookToLibrary);
 
@@ -544,6 +545,9 @@ function addListeners() {
     const export_libCSV_btn = document.getElementById("export_libCSV_btn");
     display_lib_btn.addEventListener("click", () => {
         displayLibraryTable(false);
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', "#table_title");
+        linkElement.click();
     });
     delete_lib_btn.addEventListener("click", () => {
         const message = "Are you sure you want to delete your entire library list? This action cannot be undone.";
