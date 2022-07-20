@@ -451,6 +451,9 @@ function displaySearchResults(search_results) {
         return new Book(`${result.title}`, result.author_name && result.author_name[0] ? `${result.author_name[0]}` : "N/A", result.isbn && result.isbn[0] ? `${result.isbn[0]}` : "N/A", result.number_of_pages_median ? `${result.number_of_pages_median}` : "N/A", "no");
     })
     displayLibraryTable(true, search_arr); // isSearch = true
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', "#table_title");
+    linkElement.click();
 }
 
 /* *********************************** //
@@ -507,12 +510,7 @@ function addListeners() {
     const search_form = document.getElementById("search_form");
     const import_form = document.getElementById("import_form");
     const book_form = document.getElementById("book_form");
-    search_form.addEventListener("submit", () => {
-        searchForBook();
-        const linkElement = document.createElement('a');
-        linkElement.setAttribute('href', "#table_title");
-        linkElement.click();
-    });
+    search_form.addEventListener("submit", searchForBook);
     import_form.addEventListener("submit", importBooksCSV);
     book_form.addEventListener("submit", addBookToLibrary);
 
