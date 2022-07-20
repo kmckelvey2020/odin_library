@@ -179,18 +179,19 @@ function displayBookCarousel(book) {
             <p>ISBN: ${book.isbn}</p>
             <p>Pages: ${book.pages}</p>
             <p id="readcarousel${book.isbn}">Read: ${book.read}</p>
+            <div class="page_buttons"></div>
         </div> 
         `;
 
-    const del = createButton("Delete", "del_btn", "btn del_btn", `${book.isbn}`, "click", removeBookFromLibrary)
-    const toggle = createButton("Toggle Read", "toggle_read", "btn toggle_read", `${book.isbn}`, "click", () => {
+    const del = createButton("Delete", "del_btn", "btn del_btn page_button", `${book.isbn}`, "click", removeBookFromLibrary)
+    const toggle = createButton("Toggle Read", "toggle_read", "btn toggle_read page_button", `${book.isbn}`, "click", () => {
         toggleReadStatus(book.isbn);
     })
     const activeSlide = slides.querySelector("[data-active]");
     bookListItem.dataset.active = true;
     slides.appendChild(bookListItem);
-    bookListItem.querySelector(".page5").appendChild(toggle);
-    bookListItem.querySelector(".page6").appendChild(del);
+    bookListItem.querySelector(".page_buttons").appendChild(toggle);
+    bookListItem.querySelector(".page_buttons").appendChild(del);
     if(activeSlide) delete activeSlide.dataset.active;
 }
 

@@ -243,6 +243,19 @@ ul.nav_links a {
     justify-content:space-evenly;
     align-items: center;
 }
+
+.page_button {
+    font-size: min(3.5vw, 1rem);
+}
+
+.page_buttons {
+    grid-column: 1/2;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.5rem;
+    max-width: max-content;
+    margin: 0 auto;
+}
     
 /* *********************************** //
 //                MODAL                //
@@ -328,7 +341,7 @@ ul.nav_links a {
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     border: 1px solid rgb(55, 35, 35);
-    height: min(50vh, 45rem);
+    height: min(max(50vh, 35vw), 45rem);
     padding: 1rem 0rem;
     margin: 0rem auto;
     position: relative;
@@ -430,6 +443,8 @@ li.slide[data-active] {
 
 .front, .back, .page1, .page2, .page3, .page4, .page5, .page6, .pageR, .pageL {
     border-left: 1px solid rgba(55, 35, 35, .75);
+    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
     box-shadow: 0 1em 3em 0 rgba(0, 0, 0, .2);
     height: 100%;
     top: 0;
@@ -443,12 +458,6 @@ li.slide[data-active] {
 .front, .back {
     background-color: rgb(190, 145, 155);
     border: 2px solid rgb(190, 145, 155);
-}
-
-.front, .page1, .page3, .page5, .pageL,
-.back, .page2, .page4, .page6, .pageR {
-    border-bottom-right-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
 }
 
 .front {
@@ -476,15 +485,21 @@ li.slide[data-active] {
 }
 
 .page5 {
-    background-color: rgb(250, 250, 250);
-    color: black;
     transform: rotateY(-145deg) scale(1.1);
 }
 
 .page6 {
+    transform: rotateY(-40deg) scale(1.1);
+}
+
+.page5, .page6 {
     background-color: rgb(250, 250, 250);
     color: black;
-    transform: rotateY(-40deg) scale(1.1);
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .back {
@@ -492,19 +507,20 @@ li.slide[data-active] {
 }
 
 .page5 h3, .page6 h3 {
+    grid-column: 1/2;
     line-height: min(7vw, 2.25rem);
     margin: 0;
     padding: 0.25rem 0.25rem;
-    text-align: center;
 }
 
 .page5 p, .page6 p {
-    font-size: min(3.5vw, 1rem);
+    grid-column: 1/2;
+    font-size: min(3.5vw, 1.5rem);
     margin: 0;
     padding: 0.125rem 0.125rem;
 }
 
-.page5 h3, .page5 p, .page5 .toggle_read {
+.page5 h3, .page5 p, .page_button {
     transform: rotateY(-180deg);
 }
 
