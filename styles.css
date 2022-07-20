@@ -199,15 +199,18 @@ ul.nav_links a {
         0.1rem 0.1rem 0.5rem black;
 }
 
-.close_button {
+.modal_close_btn {
+    background-color: rgba(255, 255, 255, 1);
+    border: 0;
+    border-radius: 50%;
     box-shadow: 0.1rem 0.1rem 0.25rem 0rem rgb(55, 35, 35),
         0.05rem 0.05rem 0rem 0.05rem rgb(55, 35, 35),
         inset 0.1rem 0.1rem 0.1rem 0rem white;
     float: right;
-    padding: 0rem 0.25rem;
-    margin: 0;
     margin-right: 0rem;
-    width: max-content;
+    padding: 0rem 0.25rem;
+    height: 1.5rem;
+    width: 1.5rem;
 }
 
 .search_btn, .import_libCSV_btn {
@@ -220,8 +223,8 @@ ul.nav_links a {
     align-items: center;
 }
 
-.add_btn {
-    background-image: radial-gradient(circle at 100% 0%, rgba(85, 65, 65, .25) 0%, rgba(55, 35, 35, .25) 100%);
+.add_btn, .cancel_btn {
+    background-image: radial-gradient(circle at 100% 0%, rgba(85, 65, 65, .5) 0%, rgba(55, 35, 35, .5) 100%);
 }
 
 .del_btn, .add_btn, .toggle_read {
@@ -245,20 +248,76 @@ ul.nav_links a {
 //                MODAL                //
 // *********************************** */
 
-.modal {
+.confirmation {
+    position: fixed;
+    z-index: 10;
+    top: 25vh;
+    bottom: 25vh;
+    left: 10vw;
+    right: 10vw;
+    background-image: url("./public/pexels-emre-can-acer-2079451-library-partial-800px.PNG");
+    background-size: cover;
+    background-repeat: no-repeat;
     border: 2px solid rgb(55, 35, 35);
     border-radius: 0.5rem;
-    margin: 0rem auto;
-    padding: 1rem 1rem;
+    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
+    margin: 0 auto;
+    max-height: 20rem;
+    max-width: 30rem;
+    padding: min(3vw, 1rem);
+    text-align: center;
+    vertical-align: middle;
 }
 
-.modal_header {
+.confirmation p {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 0.5rem;
+    font-size: min(5vw, 1.5rem);
     margin: 0 auto;
-    padding: 0rem 0rem;
+    padding: min(3vw, 1rem);
+    text-align: center;
 }
 
-.overlay {
+.confirmation_container, .searching_container {
+    background-color: rgba(100, 100, 100, 0.5);
+    display: none;
+    position: fixed;
+    z-index: 5;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+}
+
+.searching {
+    position: fixed;
+    z-index: 10;
+    top: 25vh;
+    bottom: 25vh;
+    left: 10vw;
+    right: 10vw;
+    background-color: rgba(190, 145, 155, 0.75);
+    border: 2px solid rgb(55, 35, 35);
+    border-radius: 0.5rem;
+    box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     margin: 0 auto;
+    max-height: 10rem;
+    max-width: 25rem;
+    padding: min(3vw, 1rem);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searching p {
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 0.5rem;
+    font-size: min(7vw, 2.5rem);
+    margin: 0 auto;
+    padding: min(10vw, 2rem);
+    text-align: center;
+    vertical-align: middle;
 }
 
 /* *********************************** //
@@ -499,13 +558,12 @@ li.slide[data-active] {
     border: 2px solid rgb(55, 35, 35);
     border-radius: 0.5rem;
     grid-column: 1/2;
-    margin: 0.25rem auto;
+    margin: 0.25rem 1rem;
     padding: 0.5rem 0.5rem;
     max-width: min(80vw, 73rem);
 }
 
 .form {
-    grid-column: 1/2;
     border: 0;
     font-family: 'Roboto', sans-serif;
     font-size: min(5vw, 1rem);

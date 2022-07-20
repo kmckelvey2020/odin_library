@@ -162,6 +162,10 @@ function displayLibraryTable(isSearch, search_arr=[]) {
             displayBookTable(book, isSearch)
         });
     }
+
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', "#table_title");
+    linkElement.click();
 }
 
 // Display Book in DOM Carousel
@@ -379,6 +383,27 @@ function deleteLibraryFromStorage() {
 }
 
 /* *********************************** //
+//                MODAL                //
+// *********************************** */
+
+function openModal(modal, modal_container, message) {
+    modal.querySelector("p").innerHTML = `${message}`;
+    modal_container.style.display = "block";
+}
+
+function closeModals() {
+    const modal_containers = document.querySelectorAll(".modal_container");
+    modal_containers.forEach(modal_container => {
+        modal_container.style.display = "none";
+    })
+}
+
+function confirmModal() {
+    deleteLibraryFromStorage();
+    closeModals();
+}
+
+/* *********************************** //
 //        SEARCH FOR NEW BOOKS         //
 // *********************************** */
 
@@ -386,13 +411,18 @@ function deleteLibraryFromStorage() {
 function searchForBook(event) {
     event.preventDefault();
 
+    const searching_container = document.getElementById("searching_container");
+    const searching = document.getElementById("searching");
+    const message = "Searching...";
+    openModal(searching, searching_container, message);
+
     const formData = new FormData(this);
     const search_term = formData.get("search_term");
     const base_url = "https://openlibrary.org/search.json?q=";
     const fields = "&fields=title,author_name,isbn,number_of_pages_median,availability&limit=5";
     const search_url = `${base_url}${search_term}${fields}`;
     const configurations={ method: 'GET' };
-    makeFetch(search_url, configurations);   
+    makeFetch(search_url, configurations);  
 }
 
 // Fetch results from https://openlibrary.org/developers/api
@@ -408,6 +438,7 @@ const makeFetch = async (url, configurations) => {
     })
     .then((data) => {
         displaySearchResults(data.docs);
+        closeModals(); 
     })
     .catch((err) => {
         console.log(err);
@@ -480,28 +511,44 @@ function addListeners() {
     const search_form = document.getElementById("search_form");
     const import_form = document.getElementById("import_form");
     const book_form = document.getElementById("book_form");
-    const carousel_buttons = document.querySelectorAll(".carousel_button");
-    const pages_to_turn = document.querySelectorAll(".turn");
-    const display_lib_btn = document.getElementById("display_lib_btn");
-    const delete_lib_btn = document.getElementById("delete_lib_btn");
-    const export_libCSV_btn = document.getElementById("export_libCSV_btn");
-
     search_form.addEventListener("submit", searchForBook);
     import_form.addEventListener("submit", importBooksCSV);
     book_form.addEventListener("submit", addBookToLibrary);
+
+    const carousel_buttons = document.querySelectorAll(".carousel_button");
+    const pages_to_turn = document.querySelectorAll(".turn");
     carousel_buttons.forEach(button => {
         button.addEventListener("click", handleCarouselClick);
     })
     pages_to_turn.forEach(page => {
         page.addEventListener("transitionend", removeAnimation);
     })
-    display_lib_btn.addEventListener("click", () => {
-            displayLibraryTable(false);
-            let linkElement = document.createElement('a');
-            linkElement.setAttribute('href', "#table_title");
-            linkElement.click();
+
+    const modals = document.querySelectorAll(".modal");
+    const modal_closers = document.querySelectorAll(".modal_close");
+    const confirm_btn = document.getElementById("confirm_btn");
+    const confirmation = document.getElementById("confirmation");
+    const confirmation_container = document.getElementById("confirmation_container");
+    modals.forEach(modal => {
+        modal.addEventListener("click", (event) => {
+            event.stopPropagation();
+        });
     });
-    delete_lib_btn.addEventListener("click", deleteLibraryFromStorage);
+    modal_closers.forEach(modal_closer => {
+        modal_closer.addEventListener("click", closeModals);
+    });
+    confirm_btn.addEventListener("click", confirmModal);
+
+    const display_lib_btn = document.getElementById("display_lib_btn");
+    const delete_lib_btn = document.getElementById("delete_lib_btn");
+    const export_libCSV_btn = document.getElementById("export_libCSV_btn");
+    display_lib_btn.addEventListener("click", () => {
+        displayLibraryTable(false);
+    });
+    delete_lib_btn.addEventListener("click", () => {
+        const message = "Are you sure you want to delete your entire library list? This action cannot be undone.";
+        openModal(confirmation, confirmation_container, message);
+    });
     export_libCSV_btn.addEventListener("click", exportToCsvFile);
 }
 

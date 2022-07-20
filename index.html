@@ -55,7 +55,6 @@
                 <section id="form_container" class="form_container">
                     <h2>Add New Book</h2>
                     <div class="form_border" id="form_border">
-                        <button class="close_button" type="button" id="close" name="close">&times;</button><br/>
                         <form class="form" action="" method="post" id="book_form">
                             <fieldset class="field">
                                 <label for="title">Book title:</label><br/>
@@ -113,14 +112,22 @@
                                     <button class="btn delete_lib_btn" type="button" id="delete_lib_btn" name="delete_lib_btn">Delete MyLibrary</button>
                                     <button class="btn export_libCSV_btn" type="button" id="export_libCSV_btn" name="export_libCSV_btn">Export MyLibrary (CSV)</button>
                                 </div>
+                                <div id="confirmation_container" class="confirmation_container modal_container modal_close">
+                                    <div id="confirmation" class="confirmation modal">
+                                        <button type="button" class="modal_close_btn modal_close" id="modal_close_btn">&times;</button>
+                                        <p></p>
+                                        <button type="button" class="btn cancel_btn modal_close" id="cancel_btn">Cancel</button>
+                                        <button type="button" class="btn confirm_btn" id="confirm_btn">Confirm</button>
+                                    </div>
+                                </div>
                             </fieldset>
                         </form>
                         <div id="search_import_container" class="search_import_container">
                             <form class="form" action="" method="post" id="import_form">
                                 <fieldset class="field">
-                                    <label for="import_file">Upload an existing csv file to add to your myLibrary list. The file must have column headers: Title, Author, ISBN, Pages, and Read. <br/>Do not include commas.</label><br/>
+                                    <label for="import_file">Upload an existing csv file to add to your MyLibrary list. The file must have column headers: Title, Author, ISBN, Pages, and Read. <br/>Do not include commas.</label><br/>
                                     <input type="file" id="import_file" name="import_file" placeholder="Choose CSV file..." /><br/>
-                                    <button class="btn import_libCSV_btn" type="submit" id="import_libCSV_btn" name="import_libCSV_btn">Import  existing myLibrary (CSV)</button>
+                                    <button class="btn import_libCSV_btn" type="submit" id="import_libCSV_btn" name="import_libCSV_btn">Import  existing MyLibrary (CSV)</button>
                                 </fieldset>
                             </form>
                             <form class="form" action="" method="post" id="search_form">
@@ -130,6 +137,11 @@
                                     <button class="btn search_btn" type="submit" id="search_btn" name="search_btn">Search</button>
                                 </fieldset>
                             </form>
+                            <div id="searching_container" class="searching_container modal_container">
+                                <div id="searching" class="searching modal">
+                                    <p>Searching...</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -157,6 +169,7 @@
                 <p>This app is based on the Library project assignment from The Odin Project.</p>
                 <p>Book picture from https://www.pexels.com/photo/pages-on-an-opened-book-415071/</p>
                 <p>Library picture from https://www.pexels.com/photo/library-interior-877971/</p>
+                <p>Modal library picture from https://www.pexels.com/photo/brass-colored-chandelier-2079451/</p>
             </footer>
         </div>
     </body>
