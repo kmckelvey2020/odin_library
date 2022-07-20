@@ -443,7 +443,7 @@ const makeFetch = async (url, configurations) => {
 
 // Create Book Object for each search result and display in the library table
 function displaySearchResults(search_results) {
-    if(!search_results) {
+    if(search_results.length===0) {
         alert("No search results found. Try a different search term.");
         return;
     }
