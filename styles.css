@@ -430,7 +430,6 @@ li.slide[data-active] {
 
 .pages {
     backface-visibility: visible;
-    cursor: pointer;
     height: max(min(30vh, 25rem), min(25vw, 25rem));
     min-height: 15rem;
     position: relative;
