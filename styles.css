@@ -134,6 +134,7 @@ ul.nav_links a {
     box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     margin: 0rem auto;
     height: min(35vh, 40rem);
+    min-height: 15rem;
     overflow: hidden;
     width: min(95vw, 80rem);
 
@@ -341,7 +342,8 @@ ul.nav_links a {
     background-color: rgba(255, 255, 255, 0.95);
     box-shadow: 0rem 0rem 0.5rem 0rem rgb(55, 35, 35);
     border: 1px solid rgb(55, 35, 35);
-    height: min(max(50vh, 35vw), 45rem);
+    height: min(max(45vh, 35vw), 45rem);
+    min-height: 20rem;
     padding: 1rem 0rem;
     margin: 0rem auto;
     position: relative;
@@ -430,6 +432,7 @@ li.slide[data-active] {
     backface-visibility: visible;
     cursor: pointer;
     height: max(min(30vh, 25rem), min(25vw, 25rem));
+    min-height: 15rem;
     position: relative;
     transform-style: preserve-3d;
 }
